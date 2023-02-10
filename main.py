@@ -1,4 +1,5 @@
 import pygame
+from Player import Player
 
 # Initialize pygame
 pygame.init()
@@ -16,6 +17,10 @@ pygame.mixer.music.set_volume(0.05)
 background_surf = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
 background_surf.fill(color='white')
 
+# Create player GroupSingle and Sprite
+player = pygame.sprite.GroupSingle()
+player.add(Player())
+
 # Main game loop
 running = True
 while running:
@@ -23,7 +28,9 @@ while running:
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             running = False
 
+    # Display surfaces
     display_surface.blit(background_surf, (0, 0))
+    player.draw(display_surface)
     pygame.display.update()
 
 # End the game
