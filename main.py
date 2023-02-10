@@ -19,12 +19,17 @@ player_x = 0
 player_y = 0
 speed = 5
 
+# Make background surface
+background_surf = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
+background_surf.fill(color='white')
+
 # Main game loop
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             running = False
+
 
     # player movement
     keys = pygame.key.get_pressed()
@@ -38,6 +43,9 @@ while running:
         player_x += speed
 
     display_surface.blit(player, (player_x, player_y))
+
+
+    display_surface.blit(background_surf, (0, 0))
 
     pygame.display.update()
 
