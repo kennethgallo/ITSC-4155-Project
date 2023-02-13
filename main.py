@@ -13,6 +13,11 @@ pygame.mixer.music.load('Music/bg-song.mp3')
 pygame.mixer.music.play(-1, 0.0)
 pygame.mixer.music.set_volume(0.01)
 
+# set FPS and clock (allows for controlling movement speed regardless of machine speed)
+# FPS can be changed to update movement of the character if needed
+FPS = 60
+clock = pygame.time.Clock()
+
 # Player image, coordinates, and speed
 player = pygame.sprite.GroupSingle()
 player.add(Player())
@@ -37,6 +42,9 @@ while running:
 
     # Update display
     pygame.display.update()
+
+    # Tick the clock
+    clock.tick(FPS)
 
 # End the game
 pygame.quit()
