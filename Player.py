@@ -1,5 +1,9 @@
 import pygame
 
+# Create display surface
+display_surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+WINDOW_WIDTH, WINDOW_HEIGHT = pygame.display.get_window_size()
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -14,13 +18,13 @@ class Player(pygame.sprite.Sprite):
     def key_movement(self):
         # Find keys pressed
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
+        if keys[pygame.K_w] and self.rect.top > 0:
             self.player_y -= self.speed
-        if keys[pygame.K_s]:
+        if keys[pygame.K_s] and self.rect.bottom < WINDOW_HEIGHT:
             self.player_y += self.speed
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a] and self.rect.left > 0:
             self.player_x -= self.speed
-        if keys[pygame.K_d]:
+        if keys[pygame.K_d] and self.rect.right < WINDOW_WIDTH:
             self.player_x += self.speed
 
         # Update rect values
