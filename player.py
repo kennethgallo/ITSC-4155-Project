@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.window_width = window_width
         self.window_height = window_height
 
-    def changeAsset(self, direction):
+    def change_asset(self, direction):
         self.image = pygame.image.load('Assets/player' + direction + '.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (60, 60))
 
@@ -21,19 +21,19 @@ class Player(pygame.sprite.Sprite):
         # Find keys pressed
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w] and self.rect.top > 0:
-            self.changeAsset("back")
+            self.change_asset("back")
             self.player_y -= self.speed
 
         if keys[pygame.K_s] and self.rect.bottom < self.window_height:
-            self.changeAsset("front")
+            self.change_asset("front")
 
             self.player_y += self.speed
         if keys[pygame.K_a] and self.rect.left > 0:
-            self.changeAsset("left")
+            self.change_asset("left")
             self.player_x -= self.speed
 
         if keys[pygame.K_d] and self.rect.right < self.window_width:
-            self.changeAsset("right")
+            self.change_asset("right")
 
             self.player_x += self.speed
 
