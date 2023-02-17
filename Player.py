@@ -25,8 +25,6 @@ class Player(pygame.sprite.Sprite):
             self.player_y -= self.speed
 
         if keys[pygame.K_s] and self.rect.bottom < self.window_height:
-
-        if keys[pygame.K_s] and self.rect.bottom < WINDOW_HEIGHT:
             self.changeAsset("front")
 
             self.player_y += self.speed
@@ -35,8 +33,6 @@ class Player(pygame.sprite.Sprite):
             self.player_x -= self.speed
 
         if keys[pygame.K_d] and self.rect.right < self.window_width:
-
-        if keys[pygame.K_d] and self.rect.right < WINDOW_WIDTH:
             self.changeAsset("right")
 
             self.player_x += self.speed
