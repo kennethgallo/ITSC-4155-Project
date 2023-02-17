@@ -1,5 +1,7 @@
+import sys
 import pygame
 from Player import Player
+from button import Button
 
 # Initialize pygame
 pygame.init()
@@ -18,13 +20,53 @@ WINDOW_WIDTH, WINDOW_HEIGHT = pygame.display.get_window_size()
 FPS = 60
 clock = pygame.time.Clock()
 
+# Main menu surface
+menu_background_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
+menu_background_surface.fill('White')
+
+title_font = pygame.font.Font(None, 28)
+title_text = title_font.render('Game Title Main Menu', True, (0, 0, 0), (255, 255, 255))
+
+# Main menu buttons
+menu_buttons = pygame.sprite.Group()
+# Start button
+start_button = Button('Start', (200, 200))
+start_button.rect.center = (WINDOW_WIDTH * (1 / 3), WINDOW_HEIGHT / 2)
+# Quit button
+quit_button = Button('Quit', (200, 200))
+quit_button.rect.center = (WINDOW_WIDTH * (2 / 3), WINDOW_HEIGHT / 2)
+
+menu_buttons.add(start_button)
+menu_buttons.add(quit_button)
+
+
+# Main menu loop
+main_menu = True
+while main_menu:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            main_menu = False
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.MOUSEBUTTONUP:
+            main_menu = False
+
+    display_surface.blit(menu_background_surface, (0, 0))
+    display_surface.blit(title_text, (WINDOW_WIDTH / 2, 100))
+    menu_buttons.draw(display_surface)
+
+    pygame.display.update()
+    clock.tick(FPS)
+
+
 # Player image, coordinates, and speed
 player = pygame.sprite.GroupSingle()
-player.add(Player())
+player.add(Player(WINDOW_WIDTH, WINDOW_HEIGHT))
 
 # Make background surface
 background_surf = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
 background_surf.fill(color='white')
+
 
 # Main game loop
 running = True
