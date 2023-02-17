@@ -26,14 +26,15 @@ menu_background_surface.fill('White')
 
 title_font = pygame.font.Font(None, 28)
 title_text = title_font.render('Game Title Main Menu', True, (0, 0, 0), (255, 255, 255))
+title_rect = title_text.get_rect(center=(WINDOW_WIDTH / 2, 100))
 
 # Main menu buttons
 menu_buttons = pygame.sprite.Group()
 # Start button
-start_button = Button('Start', (200, 200))
+start_button = Button('Start', 'White', 'Black', 200, 100)
 start_button.rect.center = (WINDOW_WIDTH * (1 / 3), WINDOW_HEIGHT / 2)
 # Quit button
-quit_button = Button('Quit', (200, 200))
+quit_button = Button('Quit', 'White', 'Black', 200, 100)
 quit_button.rect.center = (WINDOW_WIDTH * (2 / 3), WINDOW_HEIGHT / 2)
 
 menu_buttons.add(start_button)
@@ -49,10 +50,16 @@ while main_menu:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONUP:
-            main_menu = False
+            mouse_pos = pygame.mouse.get_pos()
+            if start_button.rect.collidepoint(mouse_pos):
+                main_menu = False
+            elif quit_button.rect.collidepoint(mouse_pos):
+                main_menu = False
+                pygame.quit()
+                sys.exit()
 
     display_surface.blit(menu_background_surface, (0, 0))
-    display_surface.blit(title_text, (WINDOW_WIDTH / 2, 100))
+    display_surface.blit(title_text, title_rect)
     menu_buttons.draw(display_surface)
 
     pygame.display.update()
