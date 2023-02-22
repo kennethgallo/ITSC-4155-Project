@@ -9,7 +9,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.player_y = 0
         self.player_x = 0
-        self.speed = 2
+        self.speed = 5
         self.window_width = window_width
         self.window_height = window_height
 
