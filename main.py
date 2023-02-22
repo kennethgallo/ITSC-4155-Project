@@ -71,7 +71,6 @@ player = pygame.sprite.GroupSingle()
 player.add(Player(WINDOW_WIDTH, WINDOW_HEIGHT))
 
 # Make background surface
-# background_surf = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
 background_surf = pygame.image.load('Assets/background/sand-arena-background.png').convert_alpha()
 background_surf = pygame.transform.scale(background_surf, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
