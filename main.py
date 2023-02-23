@@ -2,7 +2,6 @@ import sys
 import pygame
 from player import Player
 from button import Button
-from projectile import Projectile
 
 
 # Initialize pygame
@@ -96,10 +95,6 @@ while running:
     # Update and draw sprites
     all_sprites.draw(display_surface)
     all_sprites.update()
-
-    # Update player
-    # player.draw(display_surface)
-    # player.update()
 
     for projectile in projectiles:
         projectile.update()
