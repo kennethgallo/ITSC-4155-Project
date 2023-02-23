@@ -3,6 +3,7 @@ import pygame
 from player import Player
 from button import Button
 
+
 # Initialize pygame
 pygame.init()
 
@@ -65,10 +66,16 @@ while main_menu:
     pygame.display.update()
     clock.tick(FPS)
 
+# Create all_sprites group
+all_sprites = pygame.sprite.Group()
+
+# Create projectiles group
+projectiles = pygame.sprite.Group()
 
 # Player image, coordinates, and speed
-player = pygame.sprite.GroupSingle()
-player.add(Player(WINDOW_WIDTH, WINDOW_HEIGHT))
+player = pygame.sprite.Group()
+player.add(Player(WINDOW_WIDTH, WINDOW_HEIGHT, all_sprites, projectiles))
+all_sprites.add(player)
 
 # Make background surface
 background_surf = pygame.image.load('Assets/background/sand-arena-background.png').convert_alpha()
@@ -85,9 +92,16 @@ while running:
     # Update surfaces
     display_surface.blit(background_surf, (0, 0))
 
-    # Update player
-    player.draw(display_surface)
-    player.update()
+    # Update and draw sprites
+    all_sprites.draw(display_surface)
+    all_sprites.update()
+
+    for projectile in projectiles:
+        projectile.update()
+        if projectile.rect.right < 0:
+            projectile.kill()
+
+    projectiles.draw(display_surface)
 
     # Update display
     pygame.display.update()
