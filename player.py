@@ -1,8 +1,9 @@
 import pygame
-
+from projectile import Projectile
+import math
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, window_width, window_height):
+    def __init__(self, window_width, window_height, all_sprites, projectiles):
         super().__init__()
         self.image = pygame.image.load('Assets/playerRight.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (60, 60))
@@ -12,6 +13,8 @@ class Player(pygame.sprite.Sprite):
         self.speed = 2
         self.window_width = window_width
         self.window_height = window_height
+        self.all_sprites = all_sprites
+        self.projectiles = projectiles
 
     def change_asset(self, direction):
         self.image = pygame.image.load('Assets/player' + direction + '.png').convert_alpha()
@@ -23,19 +26,24 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_w] and self.rect.top > 0:
             self.change_asset("back")
             self.player_y -= self.speed
-
         if keys[pygame.K_s] and self.rect.bottom < self.window_height:
             self.change_asset("front")
-
             self.player_y += self.speed
         if keys[pygame.K_a] and self.rect.left > 0:
             self.change_asset("left")
             self.player_x -= self.speed
-
         if keys[pygame.K_d] and self.rect.right < self.window_width:
             self.change_asset("right")
-
             self.player_x += self.speed
+        if keys[pygame.K_SPACE]:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            dx = mouse_x - self.rect.centerx
+            dy = mouse_y - self.rect.centery
+            direction = math.degrees(math.atan2(-dy, dx))
+
+            projectile = Projectile(self.rect.centerx, self.rect.centery, direction)
+            self.all_sprites.add(projectile)
+            self.projectiles.add(projectile)
 
         # Update rect values
         self.rect.x += self.player_x
