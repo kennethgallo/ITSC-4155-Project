@@ -8,6 +8,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('Assets/playerRight.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (60, 60))
         self.rect = self.image.get_rect()
+        self.health = 400
         self.player_y = 500
         self.player_x = 500
         self.speed = 10
@@ -52,6 +53,9 @@ class Player(pygame.sprite.Sprite):
         # Reset movement for next time
         self.player_x = 0
         self.player_y = 0
+
+    def change_health(self, amount):
+        self.health += amount
 
     def update(self):
         self.key_movement()
