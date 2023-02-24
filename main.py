@@ -73,15 +73,12 @@ all_sprites = pygame.sprite.Group()
 projectiles = pygame.sprite.Group()
 
 # Player image, coordinates, and speed
-player = pygame.sprite.Group()
-player.add(Player(WINDOW_WIDTH, WINDOW_HEIGHT, all_sprites, projectiles))
+player = Player(WINDOW_WIDTH, WINDOW_HEIGHT, all_sprites, projectiles)
 all_sprites.add(player)
 
 # health bar stuff
 red = (255, 0, 0)
 green = (0, 255, 0)
-
-player_health = 400
 
 # Make background surface
 background_surf = pygame.image.load('Assets/background/sand-arena-background.png').convert_alpha()
@@ -95,7 +92,7 @@ while running:
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            player_health -= 20
+            player.change_health(-20)
 
     # Update surfaces
     display_surface.blit(background_surf, (0, 0))
@@ -106,7 +103,7 @@ while running:
 
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     pygame.draw.rect(display_surface, red, (10, 10, 400, 20))
-    pygame.draw.rect(display_surface, green, (10, 10, player_health, 20))
+    pygame.draw.rect(display_surface, green, (10, 10, player.health, 20))
 
     for projectile in projectiles:
         projectile.update()
