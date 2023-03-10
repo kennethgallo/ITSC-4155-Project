@@ -3,12 +3,12 @@ from projectile import Projectile
 import math
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, window_width, window_height, all_sprites, projectiles):
+    def __init__(self, window_width, window_height, health, all_sprites, projectiles):
         super().__init__()
         self.image = pygame.image.load('Assets/playerRight.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (60, 60))
         self.rect = self.image.get_rect()
-        self.health = 400
+        self.health = health
         self.player_y = 500
         self.player_x = 500
         self.speed = 10
@@ -56,6 +56,8 @@ class Player(pygame.sprite.Sprite):
 
     def change_health(self, amount):
         self.health += amount
+        if self.health <= 0:
+            self.kill()
 
     def update(self):
         self.key_movement()
