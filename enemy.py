@@ -20,6 +20,9 @@ class Enemy(pygame.sprite.Sprite):
         self.health += amount
         if self.health <= 0:
             self.kill()
+            return True
+        else:
+            return False
 
     def update(self):
         self.movement()
