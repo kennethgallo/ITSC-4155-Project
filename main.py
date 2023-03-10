@@ -78,12 +78,13 @@ enemy_sprites = pygame.sprite.Group()
 projectiles = pygame.sprite.Group()
 
 # Player image, coordinates, and speed
-player = Player(WINDOW_WIDTH, WINDOW_HEIGHT, all_sprites, projectiles)
+start_health = 100
+player = Player(WINDOW_WIDTH, WINDOW_HEIGHT, start_health, all_sprites, projectiles)
 all_sprites.add(player)
 
 # Add enemies to enemy sprite group
 for x in range(len(enemy_spawn_points)):
-    enemy_sprites.add(Enemy(x))
+    enemy_sprites.add(Enemy(x, start_health))
 
 # health bar stuff
 red = (255, 0, 0)
@@ -115,8 +116,9 @@ while running:
     enemy_sprites.update()
 
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
-    pygame.draw.rect(display_surface, red, (10, 10, 400, 20))
-    pygame.draw.rect(display_surface, green, (10, 10, player.health, 20))
+    if player.health > 0:
+        pygame.draw.rect(display_surface, red, (player.rect.x - 25, player.rect.y - 25, start_health, 10))
+        pygame.draw.rect(display_surface, green, (player.rect.x - 25, player.rect.y - 25, player.health, 10))
 
     for projectile in projectiles:
         projectile.update()
@@ -125,7 +127,9 @@ while running:
 
     for enemy in enemy_sprites:
         if pygame.sprite.spritecollideany(enemy, projectiles):
-            enemy.change_health(-100)
+            enemy.change_health(-10)
+        pygame.draw.rect(display_surface, red, (enemy.rect.x - 25, enemy.rect.y - 25, start_health, 10))
+        pygame.draw.rect(display_surface, green, (enemy.rect.x - 25, enemy.rect.y - 25, enemy.health, 10))
 
     projectiles.draw(display_surface)
 
