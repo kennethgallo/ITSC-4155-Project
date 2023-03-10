@@ -3,6 +3,7 @@ import pygame
 from player import Player
 from enemy import Enemy
 from button import Button
+from score import Score
 from enemy_spawn import enemy_spawn_points
 
 
@@ -82,6 +83,11 @@ start_health = 100
 player = Player(WINDOW_WIDTH, WINDOW_HEIGHT, start_health, all_sprites, projectiles)
 all_sprites.add(player)
 
+# Player score variable
+score_sprite = pygame.sprite.GroupSingle()
+score = Score(WINDOW_WIDTH, 0)
+score_sprite.add(score)
+
 # Add enemies to enemy sprite group
 for x in range(len(enemy_spawn_points)):
     enemy_sprites.add(Enemy(x, start_health))
@@ -115,6 +121,10 @@ while running:
     enemy_sprites.draw(display_surface)
     enemy_sprites.update()
 
+    # Update and draw score text
+    score_sprite.draw(display_surface)
+    score_sprite.update()
+
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     if player.health > 0:
         pygame.draw.rect(display_surface, red, (player.rect.x - 25, player.rect.y - 25, start_health, 10))
@@ -127,7 +137,9 @@ while running:
 
     for enemy in enemy_sprites:
         if pygame.sprite.spritecollideany(enemy, projectiles):
-            enemy.change_health(-10)
+            killed_enemy = enemy.change_health(-10)
+            if killed_enemy:
+                score.update_score(10)
         pygame.draw.rect(display_surface, red, (enemy.rect.x - 25, enemy.rect.y - 25, start_health, 10))
         pygame.draw.rect(display_surface, green, (enemy.rect.x - 25, enemy.rect.y - 25, enemy.health, 10))
 
