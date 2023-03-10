@@ -1,7 +1,9 @@
 import sys
 import pygame
 from player import Player
+from enemy import Enemy
 from button import Button
+from enemy_spawn import enemy_spawn_points
 
 
 # Initialize pygame
@@ -69,12 +71,19 @@ while main_menu:
 # Create all_sprites group
 all_sprites = pygame.sprite.Group()
 
+# Create enemy_sprites group
+enemy_sprites = pygame.sprite.Group()
+
 # Create projectiles group
 projectiles = pygame.sprite.Group()
 
 # Player image, coordinates, and speed
 player = Player(WINDOW_WIDTH, WINDOW_HEIGHT, all_sprites, projectiles)
 all_sprites.add(player)
+
+# Add enemies to enemy sprite group
+for x in range(len(enemy_spawn_points)):
+    enemy_sprites.add(Enemy(x))
 
 # health bar stuff
 red = (255, 0, 0)
@@ -101,6 +110,10 @@ while running:
     all_sprites.draw(display_surface)
     all_sprites.update()
 
+    # Update and draw enemies
+    enemy_sprites.draw(display_surface)
+    enemy_sprites.update()
+
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     pygame.draw.rect(display_surface, red, (10, 10, 400, 20))
     pygame.draw.rect(display_surface, green, (10, 10, player.health, 20))
@@ -109,6 +122,10 @@ while running:
         projectile.update()
         if projectile.rect.right < 0:
             projectile.kill()
+
+    for enemy in enemy_sprites:
+        if pygame.sprite.spritecollideany(enemy, projectiles):
+            enemy.change_health(-100)
 
     projectiles.draw(display_surface)
 
