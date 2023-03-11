@@ -11,10 +11,29 @@ class Enemy(pygame.sprite.Sprite):
         self.health = start_health
         self.enemy_x = enemy_spawn_points[index][0]
         self.enemy_y = enemy_spawn_points[index][1]
+        self.speed = 10
 
-    def movement(self):
+    def movement(self, player):
         self.rect.x = self.enemy_x
         self.rect.y = self.enemy_y
+
+        '''
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w] and self.rect.top > 0:
+            self.enemy_y -= self.speed
+        if keys[pygame.K_s]:
+            self.enemy_y += self.speed
+        if keys[pygame.K_a] and self.rect.left > 0:
+            self.enemy_y -= self.speed
+        if keys[pygame.K_d]:
+            self.enemy_y += self.speed
+        '''
+
+        vector = pygame.math.Vector2(player.rect.x - self.rect.x, player.rect.y - self.rect.y)
+        vector.normalize()
+        # Move along this normalized vector towards the player at current speed.
+        vector.scale_to_length(self.speed)
+        self.rect.move_ip(vector)
 
     def change_health(self, amount):
         self.health += amount
@@ -24,5 +43,5 @@ class Enemy(pygame.sprite.Sprite):
         else:
             return False
 
-    def update(self):
-        self.movement()
+    def update(self, player):
+        self.movement(player)

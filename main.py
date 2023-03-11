@@ -15,9 +15,11 @@ display_surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 WINDOW_WIDTH, WINDOW_HEIGHT = pygame.display.get_window_size()
 
 # Music by Kim Lightyear from Pixaby
+'''
 pygame.mixer.music.load('Music/bg-song.mp3')
 pygame.mixer.music.play(-1, 0.0)
 pygame.mixer.music.set_volume(0.01)
+'''
 
 # set FPS and clock (allows for controlling movement speed regardless of machine speed)
 # FPS can be changed to update movement of the character if needed
@@ -119,7 +121,7 @@ while running:
 
     # Update and draw enemies
     enemy_sprites.draw(display_surface)
-    enemy_sprites.update()
+    enemy_sprites.update(player)
 
     # Update and draw score text
     score_sprite.draw(display_surface)
