@@ -11,7 +11,7 @@ class Enemy(pygame.sprite.Sprite):
         self.health = start_health
         self.enemy_x = enemy_spawn_points[index][0]
         self.enemy_y = enemy_spawn_points[index][1]
-        self.speed = 10
+        self.speed = 60
 
     def movement(self, player):
         self.rect.x = self.enemy_x
@@ -19,7 +19,8 @@ class Enemy(pygame.sprite.Sprite):
 
         # Create a direct vector from enemy to player coordinates
         vector = pygame.math.Vector2(player.rect.x - self.rect.x, player.rect.y - self.rect.y)
-        vector.normalize()
+        if vector.length() > 0:
+            vector.normalize()
 
         # Move along this vector towards the player at current speed
         vector.scale_to_length(self.speed)

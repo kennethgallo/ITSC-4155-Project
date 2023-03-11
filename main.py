@@ -109,8 +109,10 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             running = False
+        '''
         if event.type == pygame.MOUSEBUTTONDOWN:
             player.change_health(-20)
+        '''
 
     # Update surfaces
     display_surface.blit(background_surf, (0, 0))
@@ -138,7 +140,7 @@ while running:
             projectile.kill()
 
     for enemy in enemy_sprites:
-        if pygame.sprite.spritecollideany(enemy, projectiles):
+        if pygame.sprite.spritecollideany(enemy, projectiles)
             killed_enemy = enemy.change_health(-10)
             if killed_enemy:
                 score.update_score(10)
