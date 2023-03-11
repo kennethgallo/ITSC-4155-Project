@@ -17,21 +17,11 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = self.enemy_x
         self.rect.y = self.enemy_y
 
-        '''
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_w] and self.rect.top > 0:
-            self.enemy_y -= self.speed
-        if keys[pygame.K_s]:
-            self.enemy_y += self.speed
-        if keys[pygame.K_a] and self.rect.left > 0:
-            self.enemy_y -= self.speed
-        if keys[pygame.K_d]:
-            self.enemy_y += self.speed
-        '''
-
+        # Create a direct vector from enemy to player coordinates
         vector = pygame.math.Vector2(player.rect.x - self.rect.x, player.rect.y - self.rect.y)
         vector.normalize()
-        # Move along this normalized vector towards the player at current speed.
+
+        # Move along this vector towards the player at current speed
         vector.scale_to_length(self.speed)
         self.rect.move_ip(vector)
 
