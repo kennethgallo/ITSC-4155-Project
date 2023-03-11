@@ -140,6 +140,9 @@ while running:
             projectile.kill()
 
     for enemy in enemy_sprites:
+        # Allow for constant enemy movement
+        enemy.enemy_x += enemy.speed
+        enemy.enemy_y += enemy.speed
         if pygame.sprite.spritecollideany(enemy, projectiles):
             killed_enemy = enemy.change_health(-10)
             if killed_enemy:
