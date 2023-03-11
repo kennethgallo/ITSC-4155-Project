@@ -140,7 +140,7 @@ while running:
             projectile.kill()
 
     for enemy in enemy_sprites:
-        if pygame.sprite.spritecollideany(enemy, projectiles)
+        if pygame.sprite.spritecollideany(enemy, projectiles):
             killed_enemy = enemy.change_health(-10)
             if killed_enemy:
                 score.update_score(10)
