@@ -1,11 +1,12 @@
 import sys
 import pygame
+from pytmx.util_pygame import load_pygame
 from player import Player
 from enemy import Enemy
 from button import Button
 from score import Score
 from enemy_spawn import enemy_spawn_points
-
+from tile import Tile
 
 # Initialize pygame
 pygame.init()
@@ -45,7 +46,6 @@ quit_button.rect.center = (WINDOW_WIDTH * (2 / 3), WINDOW_HEIGHT / 2)
 
 menu_buttons.add(start_button)
 menu_buttons.add(quit_button)
-
 
 # Main menu loop
 main_menu = True
@@ -99,8 +99,24 @@ red = (255, 0, 0)
 green = (0, 255, 0)
 
 # Make background surface
-background_surf = pygame.image.load('Assets/background/sand-arena-background.png').convert_alpha()
-background_surf = pygame.transform.scale(background_surf, (WINDOW_WIDTH, WINDOW_HEIGHT))
+# background_surf = pygame.image.load('Assets/background/sand-arena-background.png').convert_alpha()
+# background_surf = pygame.transform.scale(background_surf, (WINDOW_WIDTH, WINDOW_HEIGHT))
+
+# initialize data for background map
+tmx_data = load_pygame('Assets/background/maps/crypt.tmx')
+sprite_group = pygame.sprite.Group()
+
+# cycle through all layers
+for layer in tmx_data.visible_layers:
+    if hasattr(layer, 'data'):
+        for x,y,surf in layer.tiles():
+            pos = (x * 32, y * 32)
+            Tile(pos=pos, surf=surf, groups=sprite_group)
+
+for obj in tmx_data.objects:
+    pos = obj.x, obj.y
+    if obj.image:
+        Tile(pos=pos, surf=obj.image, groups=sprite_group)
 
 
 # Main game loop
@@ -115,7 +131,8 @@ while running:
         '''
 
     # Update surfaces
-    display_surface.blit(background_surf, (0, 0))
+    # display_surface.blit(background_surf, (0, 0))
+    sprite_group.draw(display_surface)
 
     # Update and draw sprites
     all_sprites.draw(display_surface)
