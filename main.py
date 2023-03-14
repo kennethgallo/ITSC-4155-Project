@@ -109,7 +109,7 @@ sprite_group = pygame.sprite.Group()
 # cycle through all layers
 for layer in tmx_data.visible_layers:
     if hasattr(layer, 'data'):
-        for x,y,surf in layer.tiles():
+        for x, y, surf in layer.tiles():
             pos = (x * 32, y * 32)
             Tile(pos=pos, surf=surf, groups=sprite_group)
 
@@ -117,7 +117,6 @@ for obj in tmx_data.objects:
     pos = obj.x, obj.y
     if obj.image:
         Tile(pos=pos, surf=obj.image, groups=sprite_group)
-
 
 # Main game loop
 running = True
