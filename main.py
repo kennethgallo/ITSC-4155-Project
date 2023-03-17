@@ -103,7 +103,7 @@ green = (0, 255, 0)
 # background_surf = pygame.transform.scale(background_surf, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
 # initialize data for background map
-tmx_data = load_pygame('Assets/background/maps/EPIC RPG World Pack - Crypt V.1.3/crypt.tmx')
+tmx_data = load_pygame('Assets/background/maps/EPICRPGWorldPackCryptV.1.3/crypt.tmx')
 sprite_group = pygame.sprite.Group()
 
 # cycle through all layers
