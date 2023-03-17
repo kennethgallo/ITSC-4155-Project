@@ -11,16 +11,27 @@ class Enemy(pygame.sprite.Sprite):
         self.health = start_health
         self.enemy_x = enemy_spawn_points[index][0]
         self.enemy_y = enemy_spawn_points[index][1]
-        self.speed = 5
+        self.max_speed = 5
+        self.speed = self.max_speed
+        self.vector = pygame.math.Vector2(0, 0)
 
     def movement(self, player):
+        # If moving away from the player, start moving back slowly
+        if self.speed < self.max_speed:
+            self.speed += 0.25
+            if self.speed > self.max_speed:
+                self.speed = self.max_speed
+
         # Create a direct vector from enemy to player coordinates
-        vector = pygame.math.Vector2(player.rect.x - self.rect.x, player.rect.y - self.rect.y)
-        if vector.length() > 0:
-            vector.normalize()
+        self.vector = pygame.math.Vector2(player.rect.x - self.rect.x, player.rect.y - self.rect.y)
+        if self.vector.length() > 0:
+            self.vector.normalize()
             # Move along this vector towards the player at current speed
-            vector.scale_to_length(self.speed)
-            self.rect.move_ip(vector)
+            self.vector.scale_to_length(self.speed)
+            self.rect.move_ip(self.vector)
+
+    def move_back_from_player(self):
+        self.speed = -5
 
     def change_health(self, amount):
         self.health += amount
