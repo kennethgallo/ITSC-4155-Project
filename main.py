@@ -80,10 +80,13 @@ enemy_sprites = pygame.sprite.Group()
 # Create projectiles group
 projectiles = pygame.sprite.Group()
 
+player_sprite = pygame.sprite.GroupSingle()
+
 # Player image, coordinates, and speed
 start_health = 100
 player = Player(WINDOW_WIDTH, WINDOW_HEIGHT, start_health, all_sprites, projectiles)
 all_sprites.add(player)
+player_sprite.add(player)
 
 # Player score variable
 score_sprite = pygame.sprite.GroupSingle()
@@ -163,6 +166,9 @@ while running:
             killed_enemy = enemy.change_health(-10)
             if killed_enemy:
                 score.update_score(10)
+        if pygame.sprite.spritecollideany(enemy, player_sprite):
+            enemy.move_back_from_player()
+            player.change_health(-10)
         pygame.draw.rect(display_surface, red, (enemy.rect.x - 25, enemy.rect.y - 25, start_health, 10))
         pygame.draw.rect(display_surface, green, (enemy.rect.x - 25, enemy.rect.y - 25, enemy.health, 10))
 
