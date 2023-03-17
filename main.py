@@ -159,16 +159,20 @@ while running:
             projectile.kill()
 
     for enemy in enemy_sprites:
-        # Allow for constant enemy movement
-        enemy.enemy_x += enemy.speed
-        enemy.enemy_y += enemy.speed
+
+        # # Allow for constant enemy movement
+        # enemy.enemy_x += enemy.speed
+        # enemy.enemy_y += enemy.speed
+
         if pygame.sprite.spritecollideany(enemy, projectiles):
             killed_enemy = enemy.change_health(-10)
             if killed_enemy:
                 score.update_score(10)
+
         if pygame.sprite.spritecollideany(enemy, player_sprite):
             enemy.move_back_from_player()
-            player.change_health(-10)
+            player.change_health(-1)
+
         pygame.draw.rect(display_surface, red, (enemy.rect.x - 25, enemy.rect.y - 25, start_health, 10))
         pygame.draw.rect(display_surface, green, (enemy.rect.x - 25, enemy.rect.y - 25, enemy.health, 10))
 

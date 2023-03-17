@@ -9,8 +9,8 @@ class Enemy(pygame.sprite.Sprite):
         self.image.fill("black")
         self.rect = self.image.get_rect()
         self.health = start_health
-        self.enemy_x = enemy_spawn_points[index][0]
-        self.enemy_y = enemy_spawn_points[index][1]
+        self.rect.x = enemy_spawn_points[index][0]
+        self.rect.y = enemy_spawn_points[index][1]
         self.max_speed = 5
         self.speed = self.max_speed
         self.vector = pygame.math.Vector2(0, 0)
