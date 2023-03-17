@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="1">
- <tileset firstgid="1" source="../../../../Desktop/GamePacks/EPIC RPG World Pack - Crypt V.1.3/Tiled Map Editor/Tileset-Terrain.tsx"/>
- <tileset firstgid="2401" source="../../../../Desktop/GamePacks/EPIC RPG World Pack - Crypt V.1.3/Tiled Map Editor/Tileset-wall-1.tsx"/>
- <tileset firstgid="2529" source="../../../../Desktop/GamePacks/EPIC RPG World Pack - Crypt V.1.3/Tiled Map Editor/Tileset-wall-2.tsx"/>
- <tileset firstgid="2657" source="../../../../Desktop/GamePacks/EPIC RPG World Pack - Crypt V.1.3/Tiled Map Editor/Tileset-wall-3.tsx"/>
+ <tileset firstgid="1" source="Tiled Map Editor/Tileset-Terrain.tsx"/>
+ <tileset firstgid="2401" source="Tiled Map Editor/Tileset-wall-1.tsx"/>
+ <tileset firstgid="2529" source="Tiled Map Editor/Tileset-wall-2.tsx"/>
+ <tileset firstgid="2657" source="Tiled Map Editor/Tileset-wall-3.tsx"/>
  <layer id="2" name="ground" width="40" height="40">
   <data encoding="csv">
 524,524,524,474,523,574,524,523,524,525,524,524,524,523,574,525,524,525,524,524,474,574,524,524,524,524,574,525,524,524,474,523,474,523,524,524,523,474,574,524,
