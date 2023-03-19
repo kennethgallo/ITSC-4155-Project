@@ -1,0 +1,1 @@
+# environmental obstacles and barricades
