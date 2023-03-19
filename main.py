@@ -7,6 +7,7 @@ from button import Button
 from score import Score
 from enemy_spawn import enemy_spawn_points
 from tile import Tile
+from obstacles import Obstacle
 
 # Initialize pygame
 pygame.init()
@@ -120,6 +121,14 @@ for obj in tmx_data.objects:
     pos = obj.x, obj.y
     if obj.image:
         Tile(pos=pos, surf=obj.image, groups=sprite_group)
+
+# Create obstacle(s)
+# Create obstacles the same way as creating all_sprites group (line 76)?
+fence_sprite = pygame.sprite.GroupSingle()
+
+
+all_sprites.add(fence)
+fence_sprite.add(fence)
 
 # Main game loop
 running = True
