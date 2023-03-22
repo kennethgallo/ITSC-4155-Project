@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.health = health
         self.player_y = 500
         self.player_x = 500
-        self.speed = 10
+        self.speed = 5
         self.window_width = window_width
         self.window_height = window_height
         self.all_sprites = all_sprites
@@ -30,9 +30,26 @@ class Player(pygame.sprite.Sprite):
                            pygame.image.load('Assets/player/newPlayerRight2.png').convert_alpha(),
                            pygame.image.load('Assets/player/newPlayerRight3.png').convert_alpha()]
 
+        self.up_anim = [pygame.image.load('Assets/player/newPlayerUp1.png').convert_alpha(),
+                        pygame.image.load('Assets/player/newPlayerUp2.png').convert_alpha(),
+                        pygame.image.load('Assets/player/newPlayerUp3.png').convert_alpha()]
+
+        self.down_anim = [pygame.image.load('Assets/player/newPlayerDown1.png').convert_alpha(),
+                          pygame.image.load('Assets/player/newPlayerDown2.png').convert_alpha(),
+                          pygame.image.load('Assets/player/newPlayerDown3.png').convert_alpha()]
+
     def swap_asset(self, direction, number):
-        #  Chooses the right list, will be refactored for up and down animation
-        anim_list = self.left_anim if direction == "Left" else self.right_anim
+        #  Chooses the right list
+        if direction == "Left":
+            anim_list = self.left_anim
+        else:
+            if direction == "Right":
+                anim_list = self.right_anim
+            else:
+                if direction == "Down":
+                    anim_list = self.up_anim
+                else:
+                    anim_list = self.down_anim
 
         #  Uses the number variable to determine correct frame then displays it
         frame_index = (number - 1) % len(anim_list)
@@ -48,20 +65,22 @@ class Player(pygame.sprite.Sprite):
 
         # Left player movement
         if keys[pygame.K_a] and self.rect.left > 0:
-            self.swap_asset("Left", int(pygame.time.get_ticks() / 500) % 5 + 1)
+            self.swap_asset("Left", int(pygame.time.get_ticks() / 100) % 5 + 1)
             self.rect.x -= self.speed
 
         # Right player movement
         if keys[pygame.K_d] and self.rect.right < self.window_width:
-            self.swap_asset("Right", int(pygame.time.get_ticks() / 500) % 5 + 1)
+            self.swap_asset("Right", int(pygame.time.get_ticks() / 100) % 5 + 1)
             self.rect.x += self.speed
 
         # Up player movement
         if keys[pygame.K_w] and self.rect.top > 0:
+            self.swap_asset("Up", int(pygame.time.get_ticks() / 100) % 5 + 1)
             self.rect.y -= self.speed
 
         # Down player movement
         if keys[pygame.K_s] and self.rect.bottom < self.window_height:
+            self.swap_asset("Down", int(pygame.time.get_ticks() / 100) % 5 + 1)
             self.rect.y += self.speed
 
         if pygame.mouse.get_pressed()[0] and self.projectile_cooldown <= 0:
