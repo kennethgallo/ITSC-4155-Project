@@ -76,6 +76,7 @@ all_sprites = pygame.sprite.Group()
 
 # Create enemy_sprites group
 enemy_sprites = pygame.sprite.Group()
+enemy_image = pygame.image.load('Assets/enemy/enemy1.png')
 
 # Create projectiles group
 projectiles = pygame.sprite.Group()
