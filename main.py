@@ -7,6 +7,7 @@ from button import Button
 from score import Score
 from enemy_spawn import enemy_spawn_points
 from tile import Tile
+from explosion import Explosion
 
 # Initialize pygame
 pygame.init()
@@ -76,6 +77,9 @@ all_sprites = pygame.sprite.Group()
 
 # Create enemy_sprites group
 enemy_sprites = pygame.sprite.Group()
+
+# Create explosion_sprites group
+explosion_sprites = pygame.sprite.Group()
 
 # Create projectiles group
 projectiles = pygame.sprite.Group()
@@ -148,6 +152,11 @@ while running:
     score_sprite.draw(display_surface)
     score_sprite.update()
 
+    # Update and draw explosions
+    explosion_sprites.update()
+    for explosion in explosion_sprites:
+        display_surface.blit(explosion.image, explosion.rect)
+
     # Draw the health bars
     def draw_healthbar(target):
         if target == "player":
@@ -178,9 +187,19 @@ while running:
         # enemy.enemy_y += enemy.speed
 
         if pygame.sprite.spritecollideany(enemy, projectiles):
+            # Get the projectile
+            collided_projectile = pygame.sprite.spritecollideany(enemy, projectiles)
             killed_enemy = enemy.change_health(-10)
+
+            # Make explosion where the projectile is
+            explosion = Explosion(enemy.rect.centerx, enemy.rect.centery)
+            explosion_sprites.add(explosion)
+
             if killed_enemy:
                 score.update_score(10)
+
+            # Kill  projectile
+            collided_projectile.kill()
 
         if pygame.sprite.spritecollideany(enemy, player_sprite):
             enemy.move_back_from_player()
