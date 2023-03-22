@@ -76,7 +76,6 @@ all_sprites = pygame.sprite.Group()
 
 # Create enemy_sprites group
 enemy_sprites = pygame.sprite.Group()
-enemy_image = pygame.image.load('Assets/enemy/enemy1.png')
 
 # Create projectiles group
 projectiles = pygame.sprite.Group()
@@ -115,12 +114,12 @@ for layer in tmx_data.visible_layers:
     if hasattr(layer, 'data'):
         for x, y, surf in layer.tiles():
             pos = (x * 32, y * 32)
-            Tile(pos=pos, surf=surf, groups=sprite_group)
+            Tile(pos=pos, surf=surf, groups=(sprite_group,))
 
 for obj in tmx_data.objects:
     pos = obj.x, obj.y
     if obj.image:
-        Tile(pos=pos, surf=obj.image, groups=sprite_group)
+        Tile(pos=pos, surf=obj.image, groups=(sprite_group,))
 
 # Main game loop
 running = True
@@ -149,10 +148,23 @@ while running:
     score_sprite.draw(display_surface)
     score_sprite.update()
 
+    # Draw the health bars
+    def draw_healthbar(target):
+        if target == "player":
+            barx = player.rect.x
+            bary = player.rect.y
+            barh = player.health
+        else:
+            barx = enemy.rect.x
+            bary = enemy.rect.y
+            barh = enemy.health
+
+        pygame.draw.rect(display_surface, red, (barx - 25, bary - 25, start_health, 10))
+        pygame.draw.rect(display_surface, green, (barx - 25, bary - 25, barh, 10))
+
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     if player.health > 0:
-        pygame.draw.rect(display_surface, red, (player.rect.x - 25, player.rect.y - 25, start_health, 10))
-        pygame.draw.rect(display_surface, green, (player.rect.x - 25, player.rect.y - 25, player.health, 10))
+        draw_healthbar("player")
 
     for projectile in projectiles:
         projectile.update()
@@ -174,8 +186,7 @@ while running:
             enemy.move_back_from_player()
             player.change_health(-1)
 
-        pygame.draw.rect(display_surface, red, (enemy.rect.x - 25, enemy.rect.y - 25, start_health, 10))
-        pygame.draw.rect(display_surface, green, (enemy.rect.x - 25, enemy.rect.y - 25, enemy.health, 10))
+        draw_healthbar("enemy")
 
     projectiles.draw(display_surface)
 
