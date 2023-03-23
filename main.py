@@ -146,7 +146,7 @@ while running:
 
     # Update and draw enemies
     enemy_sprites.draw(display_surface)
-    enemy_sprites.update(player)
+    enemy_sprites.update(player, enemy_sprites)
 
     # Update and draw score text
     score_sprite.draw(display_surface)
