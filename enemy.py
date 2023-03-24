@@ -1,5 +1,6 @@
 import pygame
 from enemy_spawn import enemy_spawn_points
+import math
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -43,31 +44,34 @@ class Enemy(pygame.sprite.Sprite):
             return False
 
     def check_collision(self, enemies):
-        # Checks each enemy
-        for enemy in enemies:
+        for enemy2 in enemies:
+            if self.rect.colliderect(enemy2) and self != enemy2:
 
-            # Makes sure it does not count itself
-            if enemy != self:
+                x_dist = self.rect.x - enemy2.rect.x
+                y_dist = (self.rect.y - enemy2.rect.y) * -1
+                distance_radius = math.sqrt((x_dist ** 2) + (y_dist ** 2))
+                distance_limit = 20
 
-                # Checks for collision then moves the enemy backwards first, then left and if it is still overlapping moves right (in the if statements)
-                if self.rect.colliderect(enemy.rect):
-
-                    # This basically checks who hit the other first and moves the first one
-                    if self.last_collision_time > enemy.last_collision_time:
-                        self.rect.move_ip(-self.vector)
-                        self.rect.move_ip(pygame.math.Vector2(5, 0))
-
-                        if any(self.rect.colliderect(e.rect) for e in enemies if e != self):
-                            self.rect.move_ip(pygame.math.Vector2(-10, 0))
-                        self.last_collision_time = pygame.time.get_ticks()
-
+                if distance_radius < distance_limit:
+                    distance_needed = distance_limit - distance_radius
+                    if x_dist == 0:
+                        if y_dist > 0:
+                            angle_needed = 90
+                        else:
+                            angle_needed = -90
                     else:
-                        enemy.rect.move_ip(-enemy.vector)  # move back the other enemy
-                        enemy.rect.move_ip(pygame.math.Vector2(5, 0))  # move to the right
-                        if any(enemy.rect.colliderect(e.rect) for e in enemies if e != enemy):
-                            enemy.rect.move_ip(pygame.math.Vector2(-10, 0))  # move to the left if still overlapping
-                        enemy.last_collision_time = pygame.time.get_ticks()
+                        angle_needed = math.degrees(math.atan(y_dist / x_dist))
+                        if x_dist < 0 and y_dist < 0:
+                            angle_needed += 180
+
+                    cos_x = math.cos(math.radians(angle_needed))
+                    sin_y = math.sin(math.radians(angle_needed))
+                    x_dist_needed = cos_x * distance_needed
+                    y_dist_needed = sin_y * distance_needed
+
+                    self.rect.y += y_dist_needed * -1
+                    self.rect.x += x_dist_needed
 
     def update(self, player, enemies):
         self.movement(player)
-        # self.check_collision(enemies)
+        self.check_collision(enemies)
