@@ -189,7 +189,7 @@ while running:
         if pygame.sprite.spritecollideany(enemy, projectiles):
             # Get the projectile
             collided_projectile = pygame.sprite.spritecollideany(enemy, projectiles)
-            killed_enemy = enemy.change_health(-10)
+            killed_enemy = enemy.change_health(-player.damage)
 
             # Make explosion where the projectile is
             explosion = Explosion(enemy.rect.centerx, enemy.rect.centery)
@@ -197,6 +197,7 @@ while running:
 
             if killed_enemy:
                 score.update_score(10)
+                player.money += 10
 
             # Kill  projectile
             collided_projectile.kill()

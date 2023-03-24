@@ -1,6 +1,7 @@
 import pygame
 from projectile import Projectile
 import math
+from upgrade_menu import UpgradeMenu
 
 
 class Player(pygame.sprite.Sprite):
@@ -13,6 +14,8 @@ class Player(pygame.sprite.Sprite):
         self.player_y = 500
         self.player_x = 500
         self.speed = 5
+        self.money = 0
+        self.damage = 15
         self.window_width = window_width
         self.window_height = window_height
         self.all_sprites = all_sprites
@@ -20,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.projectile_cooldown = 0
         self.last_update = pygame.time.get_ticks()
         self.current_frame = 0
+        self.upgrade_menu = UpgradeMenu(self)
 
         # Loads all the animation frames into a list
         self.left_anim = [pygame.image.load('Assets/player/newPlayerLeft1.png').convert_alpha(),
@@ -82,6 +86,10 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_s] and self.rect.bottom < self.window_height:
             self.swap_asset("Down", int(pygame.time.get_ticks() / 100) % 5 + 1)
             self.rect.y += self.speed
+
+        # Check if button B is pressed and display upgrade menu
+        if keys[pygame.K_b]:
+            self.upgrade_menu.run_menu()
 
         if pygame.mouse.get_pressed()[0] and self.projectile_cooldown <= 0:
             mouse_x, mouse_y = pygame.mouse.get_pos()
