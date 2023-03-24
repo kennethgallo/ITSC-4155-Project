@@ -8,6 +8,7 @@ from score import Score
 from enemy_spawn import enemy_spawn_points
 from tile import Tile
 from explosion import Explosion
+from enemy_collision import check_enemy_collision
 
 # Initialize pygame
 pygame.init()
@@ -205,6 +206,9 @@ while running:
         if pygame.sprite.spritecollideany(enemy, player_sprite):
             enemy.move_back_from_player()
             player.change_health(-1)
+
+        # Check if enemies are colliding with any others
+        check_enemy_collision(enemy, enemy_sprites)
 
         draw_healthbar("enemy")
 

@@ -42,9 +42,7 @@ class Enemy(pygame.sprite.Sprite):
         else:
             return False
 
-    def update(self, player, enemies):
-        self.movement(player)
-
+    def check_collision(self, enemies):
         # Checks each enemy
         for enemy in enemies:
 
@@ -69,3 +67,7 @@ class Enemy(pygame.sprite.Sprite):
                         if any(enemy.rect.colliderect(e.rect) for e in enemies if e != enemy):
                             enemy.rect.move_ip(pygame.math.Vector2(-10, 0))  # move to the left if still overlapping
                         enemy.last_collision_time = pygame.time.get_ticks()
+
+    def update(self, player, enemies):
+        self.movement(player)
+        # self.check_collision(enemies)
