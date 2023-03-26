@@ -26,7 +26,8 @@ class Obstacle(pygame.sprite.Sprite):
 # 5. Do logic in main for adding the obstacle(s) to the map (line x)
 # 6. Recreate line 177 in main.py (if pygame.sprite.spritecollideany)
     # for player and enemy colliding with obstacle
+    # I might have to do the logic for enemy collisions with obstacles in the enemy.py class (unless the group
+    # wants enemies to be able to walk thru obstacles for a challenge)
 
 # Fence in Assets folder of project in Github
-
 
