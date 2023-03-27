@@ -111,7 +111,26 @@ green = (0, 255, 0)
 
 # initialize data for background map
 tmx_data = load_pygame('Assets/background/maps/EPICRPGWorldPackCryptV.1.3/crypt.tmx')
-sprite_group = pygame.sprite.Group()
+
+
+class CameraGroup(pygame.sprite.Group):
+    def __init__(self):
+        super().__init__()
+        self.display_surface = pygame.display.get_surface()
+        self.half_width = self.display_surface.get_size()[0] // 2
+        self.half_height = self.display_surface.get_size()[1] // 2
+        self.offset = pygame.math.Vector2()
+
+    def custom_draw(self, player):
+
+        self.offset.x = player.rect.centerx - self.half_width
+        self.offset.y = player.rect.centery - self.half_height
+        for sprite in self.sprites():
+            offset_pos = sprite.rect.topleft - self.offset
+            display_surface.blit(sprite.image, offset_pos)
+
+
+sprite_group = CameraGroup()
 
 # cycle through all layers
 for layer in tmx_data.visible_layers:
@@ -138,7 +157,7 @@ while running:
 
     # Update surfaces
     # display_surface.blit(background_surf, (0, 0))
-    sprite_group.draw(display_surface)
+    sprite_group.custom_draw(player)
 
     # Update and draw sprites
     all_sprites.draw(display_surface)
@@ -157,6 +176,7 @@ while running:
     for explosion in explosion_sprites:
         display_surface.blit(explosion.image, explosion.rect)
 
+
     # Draw the health bars
     def draw_healthbar(target):
         if target == "player":
@@ -170,6 +190,7 @@ while running:
 
         pygame.draw.rect(display_surface, red, (barx - 25, bary - 25, start_health, 10))
         pygame.draw.rect(display_surface, green, (barx - 25, bary - 25, barh, 10))
+
 
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     if player.health > 0:
