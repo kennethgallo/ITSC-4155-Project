@@ -123,8 +123,8 @@ class CameraGroup(pygame.sprite.Group):
 
     def custom_draw(self, player):
 
-        self.offset.x = player.rect.centerx - self.half_width
-        self.offset.y = player.rect.centery - self.half_height
+        # self.offset.x = player.rect.centerx - self.half_width
+        # self.offset.y = player.rect.centery - self.half_height
         for sprite in self.sprites():
             offset_pos = sprite.rect.topleft - self.offset
             display_surface.blit(sprite.image, offset_pos)
