@@ -5,7 +5,7 @@ from player import Player
 from enemy import Enemy
 from button import Button
 from score import Score
-from enemy_spawn import enemy_spawn_points
+from enemy_spawn import EnemySpawner
 from tile import Tile
 from explosion import Explosion
 
@@ -75,9 +75,6 @@ while main_menu:
 # Create all_sprites group
 all_sprites = pygame.sprite.Group()
 
-# Create enemy_sprites group
-enemy_sprites = pygame.sprite.Group()
-
 # Create explosion_sprites group
 explosion_sprites = pygame.sprite.Group()
 
@@ -97,9 +94,9 @@ score_sprite = pygame.sprite.GroupSingle()
 score = Score(WINDOW_WIDTH, 0)
 score_sprite.add(score)
 
-# Add enemies to enemy sprite group
-for x in range(len(enemy_spawn_points)):
-    enemy_sprites.add(Enemy(x, start_health))
+# Create enemy spawner class to track enemies and enemy spawn
+enemy_spawner = EnemySpawner(display_surface, player)
+enemy_sprites = enemy_spawner.enemy_sprite_group
 
 # health bar stuff
 red = (255, 0, 0)
@@ -122,7 +119,6 @@ class CameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
     def custom_draw(self, player):
-
         # self.offset.x = player.rect.centerx - self.half_width
         # self.offset.y = player.rect.centery - self.half_height
         for sprite in self.sprites():
@@ -163,9 +159,8 @@ while running:
     all_sprites.draw(display_surface)
     all_sprites.update()
 
-    # Update and draw enemies
-    enemy_sprites.draw(display_surface)
-    enemy_sprites.update(player, enemy_sprites)
+    # Update and draw enemies using spawner
+    enemy_spawner.update()
 
     # Update and draw score text
     score_sprite.draw(display_surface)
@@ -175,7 +170,6 @@ while running:
     explosion_sprites.update()
     for explosion in explosion_sprites:
         display_surface.blit(explosion.image, explosion.rect)
-
 
     # Draw the health bars
     def draw_healthbar(target):
