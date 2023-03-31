@@ -1,6 +1,8 @@
 import sys
 import pygame
 from pytmx.util_pygame import load_pygame
+
+import enemy_spawn
 from player import Player
 from enemy import Enemy
 from button import Button
@@ -95,7 +97,7 @@ score = Score(WINDOW_WIDTH, 0)
 score_sprite.add(score)
 
 # Create enemy spawner class to track enemies and enemy spawn
-enemy_spawner = EnemySpawner(display_surface, player)
+enemy_spawner = EnemySpawner(display_surface, player, 5)
 enemy_sprites = enemy_spawner.enemy_sprite_group
 
 # health bar stuff
