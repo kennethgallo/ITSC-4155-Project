@@ -3,6 +3,7 @@ import threading
 import time
 import random
 from enemy import Enemy
+from text_display import TextDisplay
 
 
 class EnemySpawner:
@@ -10,7 +11,12 @@ class EnemySpawner:
         self.display_surface = display_surface
         self.player = player
         self.max_rounds = max_rounds
+
         self.round = 1
+        self.round_display = TextDisplay((100, 100), 'Round', self.round)
+        self.round_sprite = pygame.sprite.GroupSingle()
+        self.round_sprite.add(self.round_display)
+
         self.seconds_delay_between_enemies = 1
         self.enemy_sprite_group = pygame.sprite.Group()
         self.start_spawn_thread()
@@ -19,7 +25,7 @@ class EnemySpawner:
     #   A separate thread is necessary so that the delay
     #   will not stop the main thread
     def start_spawn_thread(self):
-        spawn_thread = threading.Thread(target=self.spawn_enemies, args=(self.round,))
+        spawn_thread = threading.Thread(target=self.spawn_enemies, args=(self.round_display.data,))
         spawn_thread.start()
 
     def spawn_enemies(self, curr_round):
@@ -67,8 +73,14 @@ class EnemySpawner:
 
         if len(self.enemy_sprite_group) == 0:
             print(f'Round {self.round} over, starting round {self.round + 1}')
+
             self.round += 1
+            self.round_display.data = self.round
+
             if self.round <= self.max_rounds:
                 self.start_spawn_thread()
             else:
                 print(f'All rounds beat! Total rounds: {self.max_rounds}')
+
+        self.round_sprite.draw(self.display_surface)
+        self.round_sprite.update()
