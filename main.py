@@ -2,11 +2,9 @@ import sys
 import pygame
 from pytmx.util_pygame import load_pygame
 
-import enemy_spawn
 from player import Player
-from enemy import Enemy
 from button import Button
-from score import Score
+from text_display import TextDisplay
 from enemy_spawn import EnemySpawner
 from tile import Tile
 from explosion import Explosion
@@ -93,7 +91,7 @@ player_sprite.add(player)
 
 # Player score variable
 score_sprite = pygame.sprite.GroupSingle()
-score = Score(WINDOW_WIDTH, 0)
+score = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 50), label='Score', data=0)
 score_sprite.add(score)
 
 # Create enemy spawner class to track enemies and enemy spawn
@@ -213,7 +211,7 @@ while running:
             explosion_sprites.add(explosion)
 
             if killed_enemy:
-                score.update_score(10)
+                score.data += 10
                 player.money += 10
 
             # Kill  projectile
