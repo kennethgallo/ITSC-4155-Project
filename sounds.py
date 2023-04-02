@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 # set volume for all sounds
-pygame.mixer.music.set_volume(0.05)
+pygame.mixer.music.set_volume(1.0)
 
 
 def main_loop_sounds(x):
@@ -12,6 +12,7 @@ def main_loop_sounds(x):
     if x == 0:
         pygame.mixer.music.load('Music/enemy-damage.mp3')
         pygame.mixer.music.play(0)
+        
     '''
     # enemy death
     if x == 1:
@@ -22,19 +23,21 @@ def main_loop_sounds(x):
     if x == 2:
         pygame.mixer.music.load('Music/enemy-damage.mp3')
         pygame.mixer.music.play(0)
-    
-    # projectile 
-    if x == 3:
-        player_death = pygame.mixer.music.load('Music/lazer.wav')
-        pygame.mixer.music.play(0)
     '''
+
 
 def new_round_sound():
     pygame.mixer.music.load('Music/new-round.mp3')
     pygame.mixer.music.play(0)
 
+
 def player_death_sound():
     pygame.mixer.music.load('Music/player-death.mp3')
+    pygame.mixer.music.play(0)
+
+
+def projectile_sound():
+    pygame.mixer.music.load('Music/lazer.mp3')
     pygame.mixer.music.play(0)
 
 

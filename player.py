@@ -2,7 +2,7 @@ import pygame
 from projectile import Projectile
 import math
 from upgrade_menu import UpgradeMenu
-from sounds import player_death_sound
+from sounds import player_death_sound, projectile_sound
 
 
 class Player(pygame.sprite.Sprite):
@@ -102,6 +102,9 @@ class Player(pygame.sprite.Sprite):
             self.all_sprites.add(projectile)
             self.projectiles.add(projectile)
             self.projectile_cooldown = 15
+
+            # play projectile sound
+            projectile_sound()
 
         self.rect.y += self.player_y
 
