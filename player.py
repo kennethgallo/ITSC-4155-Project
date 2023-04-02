@@ -3,6 +3,7 @@ from projectile import Projectile
 import math
 from upgrade_menu import UpgradeMenu
 from sounds import player_death_sound, projectile_sound
+import death_screen
 
 
 class Player(pygame.sprite.Sprite):
@@ -25,6 +26,7 @@ class Player(pygame.sprite.Sprite):
         self.last_update = pygame.time.get_ticks()
         self.current_frame = 0
         self.upgrade_menu = UpgradeMenu(self)
+        self.death_screen = death_screen
 
         # Loads all the animation frames into a list
         self.left_anim = [pygame.image.load('Assets/player/newPlayerLeft1.png').convert_alpha(),
@@ -116,6 +118,7 @@ class Player(pygame.sprite.Sprite):
         self.health += amount
         if self.health <= 0:
             self.kill()
+            # self.death_screen.display(window_width, window_height)
 
             # play player death sound
             player_death_sound()
