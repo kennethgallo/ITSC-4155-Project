@@ -4,6 +4,7 @@ import time
 import random
 from enemy import Enemy
 from text_display import TextDisplay
+from sounds import new_round_sound
 
 
 class EnemySpawner:
@@ -76,6 +77,9 @@ class EnemySpawner:
 
             self.round += 1
             self.round_display.data = self.round
+
+            # Play new round sound
+            new_round_sound()
 
             if self.round <= self.max_rounds:
                 self.start_spawn_thread()

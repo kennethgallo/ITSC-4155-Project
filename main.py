@@ -1,13 +1,13 @@
 import sys
 import pygame
 from pytmx.util_pygame import load_pygame
-
 from player import Player
 from button import Button
 from text_display import TextDisplay
 from enemy_spawn import EnemySpawner
 from tile import Tile
 from explosion import Explosion
+from sounds import main_sounds
 
 # Initialize pygame
 pygame.init()
@@ -22,10 +22,6 @@ pygame.mixer.music.load('Music/bg-song.mp3')
 pygame.mixer.music.play(-1, 0.0)
 pygame.mixer.music.set_volume(0.01)
 '''
-
-# Sound for projectiles/impacts
-projectile_sound = pygame.mixer.Sound('Music/lazer.wav')
-damage_sound = pygame.mixer.Sound('Music/enemy-damage.mp3')
 
 # set FPS and clock (allows for controlling movement speed regardless of machine speed)
 # FPS can be changed to update movement of the character if needed
@@ -197,10 +193,6 @@ while running:
     for projectile in projectiles:
         projectile.update()
 
-        # Play projectile sound
-        # projectile_sound.set_volume(0.05)
-        # projectile_sound.play(1)
-
         if projectile.rect.right < 0:
             projectile.kill()
 
@@ -219,9 +211,8 @@ while running:
             explosion = Explosion(enemy.rect.centerx, enemy.rect.centery)
             explosion_sprites.add(explosion)
 
-            # Play damage sound
-            damage_sound.set_volume(0.05)
-            damage_sound.play(0)
+            # play enemy damage sound
+            main_sounds(0)
 
             if killed_enemy:
                 score.data += 10
