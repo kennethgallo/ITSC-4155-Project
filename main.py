@@ -7,7 +7,7 @@ from text_display import TextDisplay
 from enemy_spawn import EnemySpawner
 from tile import Tile
 from explosion import Explosion
-from sounds import main_sounds
+from sounds import main_loop_sounds
 
 # Initialize pygame
 pygame.init()
@@ -212,7 +212,7 @@ while running:
             explosion_sprites.add(explosion)
 
             # play enemy damage sound
-            main_sounds(0)
+            main_loop_sounds(0)
 
             if killed_enemy:
                 score.data += 10

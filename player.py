@@ -2,6 +2,7 @@ import pygame
 from projectile import Projectile
 import math
 from upgrade_menu import UpgradeMenu
+from sounds import player_death_sound
 
 
 class Player(pygame.sprite.Sprite):
@@ -112,6 +113,9 @@ class Player(pygame.sprite.Sprite):
         self.health += amount
         if self.health <= 0:
             self.kill()
+
+            # play player death sound
+            player_death_sound()
 
     def update(self):
         self.key_movement()
