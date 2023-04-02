@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 # set volume for all sounds
-pygame.mixer.music.set_volume(1.0)
+pygame.mixer.music.set_volume(0.5)
 
 
 def main_loop_sounds(x):
@@ -12,7 +12,7 @@ def main_loop_sounds(x):
     if x == 0:
         pygame.mixer.music.load('Music/enemy-damage.mp3')
         pygame.mixer.music.play(0)
-        
+
     '''
     # enemy death
     if x == 1:
