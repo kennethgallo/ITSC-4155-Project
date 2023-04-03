@@ -95,7 +95,7 @@ score = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 50), label='Score', data=
 score_sprite.add(score)
 
 # Create enemy spawner class to track enemies and enemy spawn
-enemy_spawner = EnemySpawner(display_surface, player, 5)
+enemy_spawner = EnemySpawner(display_surface, player, 1)
 enemy_sprites = enemy_spawner.enemy_sprite_group
 
 # health bar stuff
