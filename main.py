@@ -95,12 +95,8 @@ score = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 50), label='Score', data=
 score_sprite.add(score)
 
 # Create enemy spawner class to track enemies and enemy spawn
-enemy_spawner = EnemySpawner(display_surface, player, 1)
+enemy_spawner = EnemySpawner(display_surface, player, 3)
 enemy_sprites = enemy_spawner.enemy_sprite_group
-
-# health bar stuff
-red = (255, 0, 0)
-green = (0, 255, 0)
 
 # Make background surface
 # background_surf = pygame.image.load('Assets/background/sand-arena-background.png').convert_alpha()
@@ -171,24 +167,9 @@ while running:
     for explosion in explosion_sprites:
         display_surface.blit(explosion.image, explosion.rect)
 
-    # Draw the health bars
-    def draw_healthbar(target):
-        if target == "player":
-            barx = player.rect.x
-            bary = player.rect.y
-            barh = player.health
-        else:
-            barx = enemy.rect.x
-            bary = enemy.rect.y
-            barh = enemy.health
-
-        pygame.draw.rect(display_surface, red, (barx - 25, bary - 25, start_health, 10))
-        pygame.draw.rect(display_surface, green, (barx - 25, bary - 25, barh, 10))
-
-
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     if player.health > 0:
-        draw_healthbar("player")
+        player.draw_healthbar(display_surface)
 
     for projectile in projectiles:
         projectile.update()
@@ -223,9 +204,9 @@ while running:
 
         if pygame.sprite.spritecollideany(enemy, player_sprite):
             enemy.move_back_from_player()
-            player.change_health(-1)
+            player.change_health(-10)
 
-        draw_healthbar("enemy")
+        enemy.draw_healthbar(display_surface)
 
     projectiles.draw(display_surface)
 

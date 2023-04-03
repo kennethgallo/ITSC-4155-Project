@@ -8,9 +8,13 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.image.load('Assets/enemy/enemy1.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (60, 60))
         self.rect = self.image.get_rect()
+
+        self.start_health = start_health
         self.health = start_health
+
         self.rect.x = x_pos
         self.rect.y = y_pos
+
         self.max_speed = 5
         self.speed = self.max_speed
         self.vector = pygame.math.Vector2(0, 0)
@@ -41,6 +45,19 @@ class Enemy(pygame.sprite.Sprite):
             return True
         else:
             return False
+
+    def draw_healthbar(self, display_surface):
+        red = (255, 0, 0)
+        green = (0, 255, 0)
+
+        barx = self.rect.x
+        bary = self.rect.y
+
+        background_length = 110
+        foreground_length = (float(self.health) / float(self.start_health)) * background_length
+
+        pygame.draw.rect(display_surface, red, (barx - 25, bary - 25, background_length, 10))
+        pygame.draw.rect(display_surface, green, (barx - 25, bary - 25, foreground_length, 10))
 
     def check_collision(self, enemies):
         for enemy2 in enemies:
