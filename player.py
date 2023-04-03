@@ -7,22 +7,28 @@ from death_screen import DeathScreen
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, window_width, window_height, health, all_sprites, projectiles):
+    def __init__(self, window_width, window_height, start_health, all_sprites, projectiles):
         super().__init__()
         self.image = pygame.image.load('Assets/player/newPlayerRight1.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (60, 60))
         self.rect = self.image.get_rect()
-        self.health = health
+
+        self.start_health = start_health
+        self.health = start_health
+
         self.player_y = 500
         self.player_x = 500
+
         self.speed = 5
         self.money = 0
         self.damage = 15
         self.window_width = window_width
         self.window_height = window_height
+
         self.all_sprites = all_sprites
         self.projectiles = projectiles
         self.projectile_cooldown = 0
+
         self.last_update = pygame.time.get_ticks()
         self.current_frame = 0
         self.upgrade_menu = UpgradeMenu(self)
@@ -123,6 +129,19 @@ class Player(pygame.sprite.Sprite):
 
             # play player death sound
             player_death_sound()
+
+    def draw_healthbar(self, display_surface):
+        red = (255, 0, 0)
+        green = (0, 255, 0)
+
+        barx = self.rect.x
+        bary = self.rect.y
+
+        background_length = 110
+        foreground_length = (float(self.health) / float(self.start_health)) * background_length
+
+        pygame.draw.rect(display_surface, red, (barx - 25, bary - 25, background_length, 10))
+        pygame.draw.rect(display_surface, green, (barx - 25, bary - 25, foreground_length, 10))
 
     def update(self):
         self.key_movement()
