@@ -12,6 +12,7 @@ class EnemySpawner:
         self.display_surface = display_surface
         self.player = player
         self.max_rounds = max_rounds
+        self.game_over = False
 
         self.round = 1
         self.round_display = TextDisplay((100, 100), 'Round', self.round)
@@ -72,6 +73,9 @@ class EnemySpawner:
         self.enemy_sprite_group.draw(self.display_surface)
         self.enemy_sprite_group.update(self.player, self.enemy_sprite_group)
 
+        if self.game_over:
+            return
+
         if len(self.enemy_sprite_group) == 0:
             print(f'Round {self.round} over, starting round {self.round + 1}')
 
@@ -85,6 +89,7 @@ class EnemySpawner:
                 self.start_spawn_thread()
             else:
                 print(f'All rounds beat! Total rounds: {self.max_rounds}')
+                self.game_over = True
 
         self.round_sprite.draw(self.display_surface)
         self.round_sprite.update()
