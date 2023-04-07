@@ -94,6 +94,10 @@ score_sprite = pygame.sprite.GroupSingle()
 score = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 50), label='Score', data=0)
 score_sprite.add(score)
 
+money_sprite = pygame.sprite.GroupSingle()
+money = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 80), label='Money', data=0)
+money_sprite.add(money)
+
 # Create enemy spawner class to track enemies and enemy spawn
 enemy_spawner = EnemySpawner(display_surface, player, 3)
 enemy_sprites = enemy_spawner.enemy_sprite_group
@@ -162,6 +166,12 @@ while running:
     score_sprite.draw(display_surface)
     score_sprite.update()
 
+    # Update and draw money text
+    money_sprite.draw(display_surface)
+    money_sprite.update()
+    money.data = player.money
+    money.update()
+
     # Update and draw explosions
     explosion_sprites.update()
     for explosion in explosion_sprites:
@@ -197,6 +207,8 @@ while running:
 
             if killed_enemy:
                 score.data += 10
+                money.data += 10
+
                 player.money += 10
 
             # Kill  projectile
