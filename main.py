@@ -8,8 +8,8 @@ from enemy_spawn import EnemySpawner
 from tile import Tile
 from explosion import Explosion
 from sounds import main_loop_sounds
-# noinspection PyUnresolvedReferences
 from obstacles import Obstacles
+
 
 # Initialize pygame
 pygame.init()
@@ -87,10 +87,8 @@ player_sprite = pygame.sprite.GroupSingle()
 
 # Create obstacle_sprites group
 obstacles_sprites = pygame.sprite.Group()
-# obstacles_sprites.add(obstacles)
-
-obstacles_sprites.draw(display_surface)
-obstacles_sprites.update()
+obstacle = Obstacles(50, 50, display_surface)     # self, x_pos, y_pos, surf, groups
+pygame.sprite.Group.add(obstacle)
 
 # Player image, coordinates, and speed
 start_health = 100
@@ -186,16 +184,19 @@ while running:
     for explosion in explosion_sprites:
         display_surface.blit(explosion.image, explosion.rect)
 
-    # Update and draw obstacles?
+    # Update and draw obstacles
     obstacles_sprites.update()
     for obstacles in obstacles_sprites:
         display_surface.blit(obstacles.image, obstacles.rect)
+        obstacles.draw_obstacle()
 
+    # (Logic for player collision with obstacles - might have to do this in player.py)
     # for obstacles in obstacles_sprites:
     #    if pygame.sprite.spritecollideany(player, obstacles):
     #        # some code
 
-    # (Logic for enemy collision with obstacles - might have to do this in enemy.py)
+    # (Logic for enemy collision with obstacles - might have to do this in enemy.py, or do it below on 211)
+    # for obstacles in obstacles_sprites:
     # if pygame.sprite.spritecollideany(enemy, obstacles):
     #        # some code
 
