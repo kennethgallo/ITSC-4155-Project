@@ -8,6 +8,8 @@ from enemy_spawn import EnemySpawner
 from tile import Tile
 from explosion import Explosion
 from sounds import main_loop_sounds
+# noinspection PyUnresolvedReferences
+from obstacles import Obstacles
 
 # Initialize pygame
 pygame.init()
@@ -82,6 +84,13 @@ explosion_sprites = pygame.sprite.Group()
 projectiles = pygame.sprite.Group()
 
 player_sprite = pygame.sprite.GroupSingle()
+
+# Create obstacle_sprites group
+obstacles_sprites = pygame.sprite.Group()
+# obstacles_sprites.add(obstacles)
+
+obstacles_sprites.draw(display_surface)
+obstacles_sprites.update()
 
 # Player image, coordinates, and speed
 start_health = 100
@@ -176,6 +185,19 @@ while running:
     explosion_sprites.update()
     for explosion in explosion_sprites:
         display_surface.blit(explosion.image, explosion.rect)
+
+    # Update and draw obstacles?
+    obstacles_sprites.update()
+    for obstacles in obstacles_sprites:
+        display_surface.blit(obstacles.image, obstacles.rect)
+
+    # for obstacles in obstacles_sprites:
+    #    if pygame.sprite.spritecollideany(player, obstacles):
+    #        # some code
+
+    # (Logic for enemy collision with obstacles - might have to do this in enemy.py)
+    # if pygame.sprite.spritecollideany(enemy, obstacles):
+    #        # some code
 
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     if player.health > 0:
