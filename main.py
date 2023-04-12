@@ -18,12 +18,12 @@ pygame.init()
 display_surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 WINDOW_WIDTH, WINDOW_HEIGHT = pygame.display.get_window_size()
 
-# Music by Kim Lightyear from Pixaby
-'''
-pygame.mixer.music.load('Music/bg-song.mp3')
+# Music by Davin St Rose
+
+pygame.mixer.music.load('Music/gameloop2.mp3')
 pygame.mixer.music.play(-1, 0.0)
-pygame.mixer.music.set_volume(0.01)
-'''
+pygame.mixer.music.set_volume(0.21)
+
 
 # set FPS and clock (allows for controlling movement speed regardless of machine speed)
 # FPS can be changed to update movement of the character if needed
@@ -53,6 +53,10 @@ menu_buttons.add(quit_button)
 # Main menu loop
 main_menu = True
 while main_menu:
+    pygame.mixer.music.load('Music/gameloop2.mp3')
+    pygame.mixer.music.play(-1, 0.0)
+    pygame.mixer.music.set_volume(0.21)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             main_menu = False
