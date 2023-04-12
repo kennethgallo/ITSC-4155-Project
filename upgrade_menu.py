@@ -1,13 +1,16 @@
 import pygame
+from projectile import Projectile
 
 
 class UpgradeMenu:
-    def __init__(self, player):
+    def __init__(self, player, projectile):
         self.player = player
+        self.projectile = projectile
         self.upgrade_items = {
-            "Health Upgrade": {"cost": 50, "effect": 10, "stat": "health"},
-            "Damage Upgrade": {"cost": 10, "effect": 200, "stat": "damage"},
-            "Speed Upgrade": {"cost": 75, "effect": 2, "stat": "speed"}
+            "Health Upgrade": {"cost":30, "effect": 10, "stat": "health"},
+            "Damage Upgrade": {"cost": 100, "effect": 20, "stat": "damage"},
+            "Speed Upgrade": {"cost": 50, "effect": 2, "stat": "speed"},
+            "Projectile Upgrade": {"cost": 150, "effect": 1, "stat": "max_hits"}
         }
 
     def display_menu(self, screen):
@@ -62,6 +65,10 @@ class UpgradeMenu:
                         if self.player.money >= self.upgrade_items["Speed Upgrade"]["cost"]:
                             self.player.money -= self.upgrade_items["Speed Upgrade"]["cost"]
                             self.player.speed += self.upgrade_items["Speed Upgrade"]["effect"]
+                    elif event.key == pygame.K_4:
+                        if self.player.money >= self.upgrade_items["Projectile Upgrade"]["cost"]:
+                            self.player.money -= self.upgrade_items["Projectile Upgrade"]["cost"]
+                            Projectile.max_hits += self.upgrade_items["Projectile Upgrade"]["effect"]
 
             # Draw menu and update display
             screen.fill((0, 0, 0))

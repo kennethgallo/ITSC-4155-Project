@@ -215,26 +215,35 @@ while running:
         # enemy.enemy_x += enemy.speed
         # enemy.enemy_y += enemy.speed
 
-        if pygame.sprite.spritecollideany(enemy, projectiles):
-            # Get the projectile
-            collided_projectile = pygame.sprite.spritecollideany(enemy, projectiles)
-            killed_enemy = enemy.change_health(-player.damage)
+        if pygame.sprite.spritecollide(enemy, projectiles, False):
+            for projectile in projectiles:
+                if projectile.hit_count == projectile.max_hits:
+                    projectile.kill()
+                    continue
 
-            # Make explosion where the projectile is
-            explosion = Explosion(enemy.rect.centerx, enemy.rect.centery)
-            explosion_sprites.add(explosion)
+                # Check if the projectile has hit the enemy for the first time
+                if not projectile.has_hit(enemy):
+                    # Apply damage to the enemy
+                    killed_enemy = enemy.change_health(-player.damage)
 
-            # play enemy damage sound
-            main_loop_sounds(0)
+                    # Make explosion where the projectile is
+                    explosion = Explosion(enemy.rect.centerx, enemy.rect.centery)
+                    explosion_sprites.add(explosion)
 
-            if killed_enemy:
-                score.data += 10
-                money.data += 10
+                    # play enemy damage sound
+                    main_loop_sounds(0)
 
-                player.money += 10
+                    # Update the projectile's hit count and mark the enemy as hit by the projectile
+                    projectile.hit_count += 1
+                    projectile.mark_hit(enemy)
 
-            # Kill  projectile
-            collided_projectile.kill()
+                    if killed_enemy:
+                        score.data += 10
+                        money.data += 10
+                        player.money += 10
+
+                    # Only process the first enemy that collides with a projectile
+                    break
 
         if pygame.sprite.spritecollideany(enemy, player_sprite):
             enemy.move_back_from_player()

@@ -31,7 +31,7 @@ class Player(pygame.sprite.Sprite):
 
         self.last_update = pygame.time.get_ticks()
         self.current_frame = 0
-        self.upgrade_menu = UpgradeMenu(self)
+        self.upgrade_menu = UpgradeMenu(self, projectiles)
         self.death_screen = DeathScreen(self)
 
         # Loads all the animation frames into a list
