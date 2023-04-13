@@ -1,16 +1,29 @@
 import pygame
 import math
+from projectile import Projectile
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, index, start_health, x_pos, y_pos):
+    def __init__(self, index, start_health, x_pos, y_pos, all_sprites, enemy_projectiles, enemy_type):
         super().__init__()
-        self.image = pygame.image.load('Assets/enemy/enemy1.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (60, 60))
+        if enemy_type == 'melee':
+            self.image = pygame.image.load('Assets/enemy/enemy1.png').convert_alpha()
+            self.image = pygame.transform.scale(self.image, (60, 60))
+        elif enemy_type == 'projectile':
+            self.image = pygame.image.load('Assets/enemy/enemy1.png').convert_alpha()
+            self.image = pygame.transform.scale(self.image, (60, 60))
+            self.max_projectile_cooldown = 50
+            self.projectile_cooldown = self.max_projectile_cooldown
+
         self.rect = self.image.get_rect()
+
+        self.all_sprites = all_sprites
+        self.enemy_projectiles = enemy_projectiles
 
         self.start_health = start_health
         self.health = start_health
+
+        self.enemy_type = enemy_type  # melee or projectile
 
         self.rect.x = x_pos
         self.rect.y = y_pos
@@ -21,19 +34,36 @@ class Enemy(pygame.sprite.Sprite):
         self.last_collision_time = pygame.time.get_ticks()
 
     def movement(self, player):
-        # If moving away from the player, start moving back slowly
-        if self.speed < self.max_speed:
-            self.speed += 0.25
-            if self.speed > self.max_speed:
-                self.speed = self.max_speed
 
         # Create a direct vector from enemy to player coordinates
         self.vector = pygame.math.Vector2(player.rect.x - self.rect.x, player.rect.y - self.rect.y)
-        if self.vector.length() > 0:
-            self.vector.normalize()
+
+        if self.enemy_type == 'melee':
+
+            # If moving away from the player, start moving back slowly
+            if self.speed < self.max_speed:
+                self.speed += 0.25
+                if self.speed > self.max_speed:
+                    self.speed = self.max_speed
+
             # Move along this vector towards the player at current speed
-            self.vector.scale_to_length(self.speed)
-            self.rect.move_ip(self.vector)
+            if self.vector.length() > 0:
+                self.vector.normalize()
+                self.vector.scale_to_length(self.speed)
+                self.rect.move_ip(self.vector)
+
+        elif self.enemy_type == 'projectile':
+
+            # Shoot at the player
+            if self.vector.length() > 0 and self.projectile_cooldown <= 0:
+                self.vector.normalize()
+                dx = self.vector.x
+                dy = self.vector.y
+                direction = math.degrees(math.atan2(-dy, dx))
+                projectile = Projectile(self.rect.centerx, self.rect.centery, direction)
+                self.all_sprites.add(projectile)
+                self.enemy_projectiles.add(projectile)
+                self.projectile_cooldown = self.max_projectile_cooldown
 
     def move_back_from_player(self):
         self.speed = -5
@@ -91,3 +121,6 @@ class Enemy(pygame.sprite.Sprite):
     def update(self, player, enemies):
         self.movement(player)
         self.check_collision(enemies)
+
+        if self.enemy_type == 'projectile':
+            self.projectile_cooldown -= 1
