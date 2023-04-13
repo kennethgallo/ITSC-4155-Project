@@ -112,8 +112,9 @@ money = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 80), label='Money', data=
 money_sprite.add(money)
 
 # Create enemy spawner class to track enemies and enemy spawn
-enemy_spawner = EnemySpawner(display_surface, player, 3)
+enemy_spawner = EnemySpawner(display_surface, player, 3, all_sprites)
 enemy_sprites = enemy_spawner.enemy_sprite_group
+enemy_projectiles = enemy_spawner.enemy_projectiles
 
 # Make background surface
 # background_surf = pygame.image.load('Assets/background/sand-arena-background.png').convert_alpha()
@@ -252,6 +253,11 @@ while running:
         if pygame.sprite.spritecollideany(enemy, player_sprite):
             enemy.move_back_from_player()
             player.change_health(-10)
+
+        for enemy_projectile in enemy_projectiles:
+            if pygame.sprite.spritecollideany(enemy_projectile, player_sprite):
+                enemy_projectile.kill()
+                player.change_health(-20)
 
         enemy.draw_healthbar(display_surface)
 
