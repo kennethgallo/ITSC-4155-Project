@@ -220,12 +220,13 @@ while running:
         # enemy.enemy_x += enemy.speed
         # enemy.enemy_y += enemy.speed
 
-        if pygame.sprite.spritecollide(enemy, projectiles, False):
-            for projectile in projectiles:
-                if projectile.hit_count == projectile.max_hits:
-                    projectile.kill()
-                    continue
+        for projectile in projectiles:
+            # Check if the projectile has already hit an enemy the maximum number of times
+            if projectile.hit_count == projectile.max_hits:
+                continue
 
+            # Check if the projectile collides with the enemy
+            if pygame.sprite.collide_rect(projectile, enemy):
                 # Check if the projectile has hit the enemy for the first time
                 if not projectile.has_hit(enemy):
                     # Apply damage to the enemy
@@ -247,8 +248,12 @@ while running:
                         money.data += 10
                         player.money += 10
 
-                    # Only process the first enemy that collides with a projectile
-                    break
+                # Check if the projectile has hit the enemy the maximum number of times
+                if projectile.hit_count == projectile.max_hits:
+                    projectile.kill()
+
+                # Only process the first enemy that collides with a projectile
+                break
 
         if pygame.sprite.spritecollideany(enemy, player_sprite):
             enemy.move_back_from_player()
@@ -271,3 +276,13 @@ while running:
 
 # End the game
 pygame.quit()
+
+
+
+
+
+
+
+
+
+

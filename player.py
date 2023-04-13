@@ -28,6 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.all_sprites = all_sprites
         self.projectiles = projectiles
         self.projectile_cooldown = 0
+        self.shotgun_cooldown = 0
 
         self.last_update = pygame.time.get_ticks()
         self.current_frame = 0
@@ -109,7 +110,23 @@ class Player(pygame.sprite.Sprite):
             projectile = Projectile(self.rect.centerx, self.rect.centery, direction)
             self.all_sprites.add(projectile)
             self.projectiles.add(projectile)
-            self.projectile_cooldown = 15
+            self.projectile_cooldown = 30
+
+            # play projectile sound
+            projectile_sound()
+
+        if pygame.mouse.get_pressed()[2] and self.shotgun_cooldown <= 0:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            for i in range(-30, 45, 15):
+                dx = mouse_x - self.rect.centerx
+                dy = mouse_y - self.rect.centery
+                direction = math.degrees(math.atan2(-dy, dx))
+                direction += i
+
+                projectile = Projectile(self.rect.centerx, self.rect.centery, direction)
+                self.all_sprites.add(projectile)
+                self.projectiles.add(projectile)
+                self.shotgun_cooldown = 120
 
             # play projectile sound
             projectile_sound()
@@ -146,3 +163,4 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.key_movement()
         self.projectile_cooldown -= 1
+        self.shotgun_cooldown -= 1
