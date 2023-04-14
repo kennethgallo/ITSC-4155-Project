@@ -14,6 +14,9 @@ class Enemy(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(self.image, (60, 60))
             self.max_projectile_cooldown = 50
             self.projectile_cooldown = self.max_projectile_cooldown
+        elif enemy_type == 'exploding':
+            self.image = pygame.image.load('Assets/enemy/enemy1.png').convert_alpha()
+            self.image = pygame.transform.scale(self.image, (60, 60))
 
         self.rect = self.image.get_rect()
 
@@ -28,7 +31,10 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = x_pos
         self.rect.y = y_pos
 
-        self.max_speed = 5
+        if enemy_type == 'exploding':
+            self.max_speed = 7.5
+        else:
+            self.max_speed = 5
         self.speed = self.max_speed
         self.vector = pygame.math.Vector2(0, 0)
         self.last_collision_time = pygame.time.get_ticks()
@@ -38,7 +44,7 @@ class Enemy(pygame.sprite.Sprite):
         # Create a direct vector from enemy to player coordinates
         self.vector = pygame.math.Vector2(player.rect.x - self.rect.x, player.rect.y - self.rect.y)
 
-        if self.enemy_type == 'melee':
+        if self.enemy_type == 'melee' or self.enemy_type == 'exploding':
 
             # If moving away from the player, start moving back slowly
             if self.speed < self.max_speed:

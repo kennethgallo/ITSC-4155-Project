@@ -115,6 +115,7 @@ money_sprite.add(money)
 enemy_spawner = EnemySpawner(display_surface, player, 3, all_sprites)
 enemy_sprites = enemy_spawner.enemy_sprite_group
 enemy_projectiles = enemy_spawner.enemy_projectiles
+exploding_enemies = enemy_spawner.exploding_enemies
 
 # Make background surface
 # background_surf = pygame.image.load('Assets/background/sand-arena-background.png').convert_alpha()
@@ -258,6 +259,11 @@ while running:
             if pygame.sprite.spritecollideany(enemy_projectile, player_sprite):
                 enemy_projectile.kill()
                 player.change_health(-20)
+
+        for exploding_enemy in exploding_enemies:
+            if pygame.sprite.spritecollideany(exploding_enemy, player_sprite):
+                player.change_health(-50)
+                exploding_enemy.kill()
 
         enemy.draw_healthbar(display_surface)
 
