@@ -95,7 +95,7 @@ obstacle = Obstacles(50, 50)  # instantiate
 # self, x_pos, y_pos, surf/display_surface, groups
 # Obstacles(50, 50)
 pygame.sprite.Group.add(obstacle)  # add instantiation
-all_sprites.add(obstacle)  # pass in obstacle or obstacles??
+all_sprites.add(obstacle)  # do I pass in obstacle or obstacles??
 
 # Player image, coordinates, and speed
 start_health = 100

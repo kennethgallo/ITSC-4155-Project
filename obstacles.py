@@ -7,8 +7,9 @@ import random
 
 class Obstacles(pygame.sprite.Sprite):
     def __init__(self, x_pos, y_pos):  # (self, x_pos, y_pos, surf):
+        super().__init__()
         self.image = pygame.image.load('Assets/fence_00.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (60, 60))
+        self.image = pygame.transform.scale(self.image, (50, 50))  # changed from (60, 60)
         # self.rect.x = x_pos
         # self.rect.y = y_pos
         self.rect = self.image.get_rect()
