@@ -14,7 +14,7 @@ projectile_sfx = pygame.mixer.Sound('Music/lazer.mp3')
 master_volume = 0.1
 
 enemy_damage.set_volume(master_volume)
-player_damage.set_volume(master_volume)
+player_damage.set_volume(0.05)
 new_round.set_volume(master_volume)
 player_death.set_volume(master_volume)
 projectile_sfx.set_volume(master_volume)
