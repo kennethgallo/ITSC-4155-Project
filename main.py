@@ -1,6 +1,8 @@
 import sys
 import pygame
 from pytmx.util_pygame import load_pygame
+
+import sounds
 from player import Player
 from button import Button
 from text_display import TextDisplay
@@ -259,15 +261,18 @@ while running:
         if pygame.sprite.spritecollideany(enemy, player_sprite):
             enemy.move_back_from_player()
             player.change_health(-10)
+            main_loop_sounds(1)
 
         for enemy_projectile in enemy_projectiles:
             if pygame.sprite.spritecollideany(enemy_projectile, player_sprite):
                 enemy_projectile.kill()
                 player.change_health(-20)
+                main_loop_sounds(1)
 
         for exploding_enemy in exploding_enemies:
             if pygame.sprite.spritecollideany(exploding_enemy, player_sprite):
                 player.change_health(-50)
+                main_loop_sounds(1)
                 exploding_enemy.kill()
 
         enemy.draw_healthbar(display_surface)
