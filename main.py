@@ -251,6 +251,9 @@ while running:
                         money.data += 10
                         player.money += 10
 
+                        # play enemy death sound
+                        main_loop_sounds(2)
+
                 # Check if the projectile has hit the enemy the maximum number of times
                 if projectile.hit_count == projectile.max_hits:
                     projectile.kill()
