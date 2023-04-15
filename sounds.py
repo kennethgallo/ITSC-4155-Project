@@ -3,15 +3,23 @@ import pygame
 # Initialize pygame
 pygame.init()
 
-# set volume for all sounds
-pygame.mixer.music.set_volume(0.5)
+# load in each sound effect
+enemy_damage = pygame.mixer.Sound('Music/enemy-damage.mp3')
+new_round = pygame.mixer.Sound('Music/new-round.mp3')
+player_death = pygame.mixer.Sound('Music/player-death.mp3')
+projectile_sfx = pygame.mixer.Sound('Music/lazer.mp3')
+
+# set the volume for each sound effect
+enemy_damage.set_volume(0.1)
+new_round.set_volume(0.1)
+player_death.set_volume(0.1)
+projectile_sfx.set_volume(0.1)
 
 
 def main_loop_sounds(x):
     # enemy damage
     if x == 0:
-        pygame.mixer.music.load('Music/enemy-damage.mp3')
-        pygame.mixer.music.play(0)
+        enemy_damage.play(0)
 
     '''
     # enemy death
@@ -27,18 +35,15 @@ def main_loop_sounds(x):
 
 
 def new_round_sound():
-    pygame.mixer.music.load('Music/new-round.mp3')
-    pygame.mixer.music.play(0)
+    new_round.play(0)
 
 
 def player_death_sound():
-    pygame.mixer.music.load('Music/player-death.mp3')
-    pygame.mixer.music.play(0)
+    player_death.play(0)
 
 
 def projectile_sound():
-    pygame.mixer.music.load('Music/lazer.mp3')
-    pygame.mixer.music.play(0)
+    projectile_sfx.play(0)
 
 
 

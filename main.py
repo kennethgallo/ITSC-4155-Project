@@ -55,7 +55,7 @@ main_menu = True
 while main_menu:
     pygame.mixer.music.load('Music/gameloop2.mp3')
     pygame.mixer.music.play(-1, 0.0)
-    pygame.mixer.music.set_volume(0.21)
+    pygame.mixer.music.set_volume(0.01)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
