@@ -6,17 +6,28 @@ from projectile import Projectile
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, index, start_health, x_pos, y_pos, all_sprites, enemy_projectiles, enemy_type):
         super().__init__()
+
         if enemy_type == 'melee':
-            self.image = pygame.image.load('Assets/enemy/enemy1.png').convert_alpha()
-            self.image = pygame.transform.scale(self.image, (60, 60))
+            self.sprite_sheet = pygame.image.load('Assets/enemy/Characters/Spider/Spider-variation1-walk.png').convert_alpha()
         elif enemy_type == 'projectile':
-            self.image = pygame.image.load('Assets/enemy/enemy1.png').convert_alpha()
-            self.image = pygame.transform.scale(self.image, (60, 60))
+            self.sprite_sheet = pygame.image.load('Assets/enemy/Characters/Skeleton/skeleton-variation1-walk.png').convert_alpha()
             self.max_projectile_cooldown = 50
             self.projectile_cooldown = self.max_projectile_cooldown
         elif enemy_type == 'exploding':
-            self.image = pygame.image.load('Assets/enemy/enemy1.png').convert_alpha()
-            self.image = pygame.transform.scale(self.image, (60, 60))
+            self.sprite_sheet = pygame.image.load('Assets/enemy/Characters/Big Worm 1/Big worm - 1-idle-8 frames.png').convert_alpha()
+
+        self.sprite_sheet = pygame.transform.scale(self.sprite_sheet, (480, 60))
+        self.frame_width = 60
+        self.frame_height = 60
+        self.frames = []
+        self.last_frame_time = pygame.time.get_ticks()
+        for i in range(8):
+            rect = pygame.Rect(i * self.frame_width, 0, self.frame_width, self.frame_height)
+            frame_image = pygame.Surface(rect.size, pygame.SRCALPHA, 32).convert_alpha()
+            frame_image.blit(self.sprite_sheet, (0, 0), rect)
+            self.frames.append(frame_image)
+        self.image_index = 0
+        self.image = self.frames[self.image_index]
 
         self.rect = self.image.get_rect()
 
@@ -32,9 +43,9 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = y_pos
 
         if enemy_type == 'exploding':
-            self.max_speed = 7.5
+            self.max_speed = 5.5
         else:
-            self.max_speed = 5
+            self.max_speed = 3
         self.speed = self.max_speed
         self.vector = pygame.math.Vector2(0, 0)
         self.last_collision_time = pygame.time.get_ticks()
@@ -125,8 +136,16 @@ class Enemy(pygame.sprite.Sprite):
                     self.rect.x += x_dist_needed
 
     def update(self, player, enemies):
+        if self.enemy_type in ['melee', 'projectile', 'exploding']:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.last_frame_time > 100:
+                self.image_index = (self.image_index + 1) % len(self.frames)
+                self.image = self.frames[self.image_index]
+                self.last_frame_time = current_time
+
         self.movement(player)
         self.check_collision(enemies)
 
         if self.enemy_type == 'projectile':
             self.projectile_cooldown -= 1
+
