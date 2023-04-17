@@ -1,6 +1,8 @@
 import sys
 import pygame
 from pytmx.util_pygame import load_pygame
+
+import sounds
 from player import Player
 from button import Button
 from text_display import TextDisplay
@@ -55,7 +57,7 @@ main_menu = True
 while main_menu:
     pygame.mixer.music.load('Music/gameloop2.mp3')
     pygame.mixer.music.play(-1, 0.0)
-    pygame.mixer.music.set_volume(0.21)
+    pygame.mixer.music.set_volume(0.01)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -116,6 +118,7 @@ money_sprite.add(money)
 enemy_spawner = EnemySpawner(display_surface, player, 3, all_sprites)
 enemy_sprites = enemy_spawner.enemy_sprite_group
 enemy_projectiles = enemy_spawner.enemy_projectiles
+exploding_enemies = enemy_spawner.exploding_enemies
 
 # Make background surface
 # background_surf = pygame.image.load('Assets/background/sand-arena-background.png').convert_alpha()
@@ -252,6 +255,9 @@ while running:
                         money.data += 10
                         player.money += 10
 
+                        # play enemy death sound
+                        main_loop_sounds(2)
+
                 # Check if the projectile has hit the enemy the maximum number of times
                 if projectile.hit_count == projectile.max_hits:
                     projectile.kill()
@@ -262,11 +268,19 @@ while running:
         if pygame.sprite.spritecollideany(enemy, player_sprite):
             enemy.move_back_from_player()
             player.change_health(-10)
+            main_loop_sounds(1)
 
         for enemy_projectile in enemy_projectiles:
             if pygame.sprite.spritecollideany(enemy_projectile, player_sprite):
                 enemy_projectile.kill()
                 player.change_health(-20)
+                main_loop_sounds(1)
+
+        for exploding_enemy in exploding_enemies:
+            if pygame.sprite.spritecollideany(exploding_enemy, player_sprite):
+                player.change_health(-50)
+                main_loop_sounds(1)
+                exploding_enemy.kill()
 
         enemy.draw_healthbar(display_surface)
 
