@@ -93,11 +93,11 @@ player_sprite = pygame.sprite.GroupSingle()
 
 # Create obstacle_sprites group
 obstacles_sprites = pygame.sprite.Group()
-obstacle = Obstacles(50, 50)  # instantiate
+obstacle = Obstacles(50, 50)  # instantiate obstacle
 # self, x_pos, y_pos, surf/display_surface, groups
 # Obstacles(50, 50)
-pygame.sprite.Group.add(obstacle)  # add instantiation
-all_sprites.add(obstacle)  # do I pass in obstacle or obstacles??
+pygame.sprite.Group.add(obstacle)
+all_sprites.add(obstacle)
 
 # Player image, coordinates, and speed
 start_health = 100
@@ -200,16 +200,6 @@ while running:
     for obstacles in obstacles_sprites:
         display_surface.blit(obstacles.image, obstacles.rect)
         obstacles.draw_obstacle()
-
-    # (Logic for player collision with obstacles - might have to do this in player.py)
-    # for obstacles in obstacles_sprites:
-    #    if pygame.sprite.spritecollideany(player, obstacles):
-    #        # some code
-
-    # (Logic for enemy collision with obstacles - might have to do this in enemy.py, or do it below on 211)
-    # for obstacles in obstacles_sprites:
-    # if pygame.sprite.spritecollideany(enemy, obstacles):
-    #        # some code
 
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     if player.health > 0:
