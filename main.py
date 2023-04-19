@@ -268,8 +268,10 @@ while running:
 
         for exploding_enemy in exploding_enemies:
             if pygame.sprite.spritecollideany(exploding_enemy, player_sprite):
-                player.change_health(-50)
+                player.change_health(-15)
                 main_loop_sounds(1)
+                explosion = Explosion(exploding_enemy.rect.centerx, exploding_enemy.rect.centery)
+                explosion_sprites.add(explosion)
                 exploding_enemy.kill()
 
         enemy.draw_healthbar(display_surface)
