@@ -40,6 +40,10 @@ title_font = pygame.font.Font(None, 28)
 title_text = title_font.render('Game Title Main Menu', True, (0, 0, 0), (255, 255, 255))
 title_rect = title_text.get_rect(center=(WINDOW_WIDTH / 2, 100))
 
+music_font = pygame.font.Font(None, 22)
+music_text = music_font.render('Music by Davin St Rose', True, (0, 0, 0), (255, 255, 255))
+music_rect = music_text.get_rect(center=(WINDOW_WIDTH / 4, 100))
+
 # Main menu buttons
 menu_buttons = pygame.sprite.Group()
 # Start button
@@ -75,6 +79,7 @@ while main_menu:
 
     display_surface.blit(menu_background_surface, (0, 0))
     display_surface.blit(title_text, title_rect)
+    display_surface.blit(music_text, music_rect)
     menu_buttons.draw(display_surface)
 
     pygame.display.update()
