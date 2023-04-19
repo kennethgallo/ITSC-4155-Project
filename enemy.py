@@ -9,12 +9,15 @@ class Enemy(pygame.sprite.Sprite):
 
         if enemy_type == 'melee':
             self.sprite_sheet = pygame.image.load('Assets/enemy/Characters/Spider/Spider-variation1-walk.png').convert_alpha()
+            self.start_health = start_health
         elif enemy_type == 'projectile':
             self.sprite_sheet = pygame.image.load('Assets/enemy/Characters/Skeleton/skeleton-variation1-walk.png').convert_alpha()
             self.max_projectile_cooldown = 50
             self.projectile_cooldown = self.max_projectile_cooldown
+            self.start_health = start_health
         elif enemy_type == 'exploding':
             self.sprite_sheet = pygame.image.load('Assets/enemy/Characters/Big Worm 1/Big worm - 1-idle-8 frames.png').convert_alpha()
+            self.start_health = start_health / 2
 
         self.sprite_sheet = pygame.transform.scale(self.sprite_sheet, (480, 60))
         self.frame_width = 60
@@ -34,10 +37,8 @@ class Enemy(pygame.sprite.Sprite):
         self.all_sprites = all_sprites
         self.enemy_projectiles = enemy_projectiles
 
-        self.start_health = start_health
-        self.health = start_health
-
-        self.enemy_type = enemy_type  # melee or projectile
+        self.health = self.start_health
+        self.enemy_type = enemy_type  # melee, projectile, or exploding
 
         self.rect.x = x_pos
         self.rect.y = y_pos
