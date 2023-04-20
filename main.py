@@ -142,8 +142,8 @@ class CameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
     def custom_draw(self, player):
-        # self.offset.x = player.rect.centerx - self.half_width
-        # self.offset.y = player.rect.centery - self.half_height
+        self.offset.x = player.rect.centerx - self.half_width
+        self.offset.y = player.rect.centery - self.half_height
         for sprite in self.sprites():
             offset_pos = sprite.rect.topleft - self.offset
             display_surface.blit(sprite.image, offset_pos)
@@ -166,6 +166,8 @@ for obj in tmx_data.objects:
 # Main game loop
 running = True
 while running:
+    display_surface.fill(0)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             running = False
@@ -175,7 +177,7 @@ while running:
         '''
 
     # Update surfaces
-    # display_surface.blit(background_surf, (0, 0))
+    # display_surface.blit(display_surface, (0, 0))
     sprite_group.custom_draw(player)
 
     # Update and draw sprites
