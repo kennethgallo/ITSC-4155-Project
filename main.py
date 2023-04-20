@@ -41,7 +41,7 @@ title_text = title_font.render('Creepy Crawlers', True, (0, 0, 255), (255, 255, 
 title_rect = title_text.get_rect(center=(WINDOW_WIDTH / 2, 100))
 
 music_font = pygame.font.Font('Assets/fonts/Feral-Regular.ttf', 22)
-music_text = music_font.render('Music by Davin St Rose', True, (0, 0, 255), (255, 255, 255))
+music_text = music_font.render('Music by Late Summerchild', True, (0, 0, 255), (255, 255, 255))
 music_rect = music_text.get_rect(center=(WINDOW_WIDTH / 4, 100))
 
 # Main menu buttons
@@ -61,7 +61,7 @@ main_menu = True
 while main_menu:
     pygame.mixer.music.load('Music/gameloop2.mp3')
     pygame.mixer.music.play(-1, 0.0)
-    pygame.mixer.music.set_volume(0.01)
+    pygame.mixer.music.set_volume(0.51)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
