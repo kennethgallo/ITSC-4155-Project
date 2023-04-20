@@ -24,7 +24,7 @@ class EnemySpawner:
         self.round_sprite = pygame.sprite.GroupSingle()
         self.round_sprite.add(self.round_display)
 
-        self.seconds_delay_between_enemies = 1
+        self.seconds_delay_between_enemies = 2
         self.enemy_sprite_group = pygame.sprite.Group()
         self.start_spawn_thread()
 
