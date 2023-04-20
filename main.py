@@ -36,12 +36,12 @@ clock = pygame.time.Clock()
 menu_background_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
 menu_background_surface.fill('White')
 
-title_font = pygame.font.Font(None, 28)
-title_text = title_font.render('Game Title Main Menu', True, (0, 0, 0), (255, 255, 255))
+title_font = pygame.font.Font('Assets/fonts/Feral-Regular.ttf', 50)
+title_text = title_font.render('Creepy Crawlers', True, (0, 0, 255), (255, 255, 255))
 title_rect = title_text.get_rect(center=(WINDOW_WIDTH / 2, 100))
 
-music_font = pygame.font.Font(None, 22)
-music_text = music_font.render('Music by Davin St Rose', True, (0, 0, 0), (255, 255, 255))
+music_font = pygame.font.Font('Assets/fonts/Feral-Regular.ttf', 22)
+music_text = music_font.render('Music by Davin St Rose', True, (0, 0, 255), (255, 255, 255))
 music_rect = music_text.get_rect(center=(WINDOW_WIDTH / 4, 100))
 
 # Main menu buttons
