@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, window_width, window_height, start_health, all_sprites, projectiles):
         super().__init__()
         self.image = pygame.image.load('Assets/player/newPlayerRight1.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (60, 60))
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
 
         self.start_health = start_health

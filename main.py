@@ -62,7 +62,7 @@ main_menu = True
 while main_menu:
     pygame.mixer.music.load('Music/gameloop2.mp3')
     pygame.mixer.music.play(-1, 0.0)
-    pygame.mixer.music.set_volume(0.51)
+    pygame.mixer.music.set_volume(0.05)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -160,7 +160,7 @@ class CameraGroup(pygame.sprite.Group):
     def custom_draw(self, player):
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
-        for sprite in self.sprites():
+        for sprite in (all_sprites and self.sprites()):
             offset_pos = sprite.rect.topleft - self.offset
             display_surface.blit(sprite.image, offset_pos)
 
