@@ -71,7 +71,6 @@ class Player(pygame.sprite.Sprite):
 
         #  The player kept changing sizes so this keeps him constant
         self.image = pygame.transform.scale(self.image, (60, 60))
-        self.player_x -= self.speed
 
     def key_movement(self):
         # Find keys pressed
