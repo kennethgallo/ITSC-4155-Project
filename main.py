@@ -1,5 +1,6 @@
 import sys
 import pygame
+import random
 from pytmx.util_pygame import load_pygame
 
 import sounds
@@ -132,6 +133,21 @@ exploding_enemies = enemy_spawner.exploding_enemies
 # initialize data for background map
 tmx_data = load_pygame('Assets/background/maps/EPICRPGWorldPackCryptV.1.3/crypt.tmx')
 
+# get dimensions of the map
+map_width = tmx_data.width * tmx_data.tilewidth
+map_height = tmx_data.height * tmx_data.tileheight
+
+# create a rectangle around the edge of the map
+boundary_rect = pygame.Rect(0, 0, map_width, map_height)
+boundary_rect.inflate_ip(-tmx_data.tilewidth, -tmx_data.tileheight)
+
+# generate a random position
+player_pos = pygame.math.Vector2(random.randint(boundary_rect.left, boundary_rect.right),
+                                 random.randint(boundary_rect.top, boundary_rect.bottom))
+
+# start player in random place
+player.rect.center = player_pos
+
 
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
@@ -175,6 +191,11 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             player.change_health(-20)
         '''
+    # calculate delta time
+    # dt = clock.tick(60) / 1000.0  # 60 is the desired frame rate
+
+    # Update player
+    # player.update(dt, boundary_rect)
 
     # Update surfaces
     # display_surface.blit(display_surface, (0, 0))
