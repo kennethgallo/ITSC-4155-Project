@@ -156,13 +156,28 @@ class CameraGroup(pygame.sprite.Group):
         self.half_width = self.display_surface.get_size()[0] // 2
         self.half_height = self.display_surface.get_size()[1] // 2
         self.offset = pygame.math.Vector2()
+        self.last_player_x = player.rect.centerx
+        self.last_player_y = player.rect.centery
 
     def custom_draw(self, player):
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
-        for sprite in (all_sprites and self.sprites()):
-            offset_pos = sprite.rect.topleft - self.offset
-            display_surface.blit(sprite.image, offset_pos)
+
+        tiles = self.sprites()
+        other_sprites = list(enemy_sprites) + list(enemy_projectiles) + list(explosion_sprites) + list(obstacles_sprites) + list(projectiles)
+
+        for sprite in tiles + other_sprites:
+            if isinstance(sprite, Tile):
+                offset_pos = sprite.rect.topleft - self.offset
+                display_surface.blit(sprite.image, offset_pos)
+            else:
+                offset_x = player.rect.centerx - self.last_player_x
+                offset_y = player.rect.centery - self.last_player_y
+                sprite.rect.centerx -= offset_x
+                sprite.rect.centery -= offset_y
+
+        self.last_player_x = player.rect.centerx
+        self.last_player_y = player.rect.centery
 
 
 sprite_group = CameraGroup()
