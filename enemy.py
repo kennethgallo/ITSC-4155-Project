@@ -1,6 +1,7 @@
 import pygame
 import math
 from projectile import Projectile
+from sounds import projectile_sound
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -84,6 +85,7 @@ class Enemy(pygame.sprite.Sprite):
                 self.all_sprites.add(projectile)
                 self.enemy_projectiles.add(projectile)
                 self.projectile_cooldown = self.max_projectile_cooldown
+                projectile_sound()
 
     def move_back_from_player(self):
         self.speed = -5
