@@ -4,6 +4,7 @@ import random
 from pytmx.util_pygame import load_pygame
 
 import sounds
+from main_menu import MainMenu
 from player import Player
 from button import Button
 from text_display import TextDisplay
@@ -33,58 +34,11 @@ WINDOW_WIDTH, WINDOW_HEIGHT = pygame.display.get_window_size()
 FPS = 60
 clock = pygame.time.Clock()
 
-# Main menu surface
-menu_background_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
-menu_background_surface.fill('White')
-
-title_font = pygame.font.Font('Assets/fonts/Feral-Regular.ttf', 50)
-title_text = title_font.render('Creepy Crawlers', True, (0, 0, 255), (255, 255, 255))
-title_rect = title_text.get_rect(center=(WINDOW_WIDTH / 2, 100))
-
-music_font = pygame.font.Font('Assets/fonts/Feral-Regular.ttf', 22)
-music_text = music_font.render('Music by Late Summerchild', True, (0, 0, 255), (255, 255, 255))
-music_rect = music_text.get_rect(center=(WINDOW_WIDTH / 4, 100))
-
-# Main menu buttons
-menu_buttons = pygame.sprite.Group()
-# Start button
-start_button = Button('Start', 'White', 'Black', 200, 100)
-start_button.rect.center = (WINDOW_WIDTH * (1 / 3), WINDOW_HEIGHT / 2)
-# Quit button
-quit_button = Button('Quit', 'White', 'Black', 200, 100)
-quit_button.rect.center = (WINDOW_WIDTH * (2 / 3), WINDOW_HEIGHT / 2)
-
-menu_buttons.add(start_button)
-menu_buttons.add(quit_button)
-
 # Main menu loop
-main_menu = True
-while main_menu:
-    pygame.mixer.music.load('Music/gameloop2.mp3')
-    pygame.mixer.music.play(-1, 0.0)
-    pygame.mixer.music.set_volume(0.05)
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-            main_menu = False
-            pygame.quit()
-            sys.exit()
-        if event.type == pygame.MOUSEBUTTONUP:
-            mouse_pos = pygame.mouse.get_pos()
-            if start_button.rect.collidepoint(mouse_pos):
-                main_menu = False
-            elif quit_button.rect.collidepoint(mouse_pos):
-                main_menu = False
-                pygame.quit()
-                sys.exit()
-
-    display_surface.blit(menu_background_surface, (0, 0))
-    display_surface.blit(title_text, title_rect)
-    display_surface.blit(music_text, music_rect)
-    menu_buttons.draw(display_surface)
-
-    pygame.display.update()
-    clock.tick(FPS)
+main_menu = MainMenu(WINDOW_WIDTH, WINDOW_HEIGHT, display_surface, clock, FPS)
+keep_menu = True
+while keep_menu:
+    keep_menu = main_menu.menu_loop()
 
 # Create all_sprites group
 all_sprites = pygame.sprite.Group()
