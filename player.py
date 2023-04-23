@@ -138,6 +138,9 @@ class Player(pygame.sprite.Sprite):
 
     def change_health(self, amount):
         self.health += amount
+        if self.health > self.start_health:
+            self.health = self.start_health
+
         screen = pygame.display.get_surface()
         if self.health <= 0:
             self.kill()
