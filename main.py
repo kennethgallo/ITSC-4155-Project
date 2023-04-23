@@ -13,6 +13,7 @@ from tile import Tile
 from explosion import Explosion
 from sounds import main_loop_sounds
 from obstacles import Obstacles
+from item_drops import roll_drop, ItemDrop
 
 
 # Initialize pygame
@@ -40,19 +41,14 @@ keep_menu = True
 while keep_menu:
     keep_menu = main_menu.menu_loop()
 
-# Create all_sprites group
+# Create sprite groups
 all_sprites = pygame.sprite.Group()
-
-# Create explosion_sprites group
 explosion_sprites = pygame.sprite.Group()
-
-# Create projectiles group
 projectiles = pygame.sprite.Group()
-
 player_sprite = pygame.sprite.GroupSingle()
-
-# Create obstacle_sprites group
+item_drops = pygame.sprite.Group()
 obstacles_sprites = pygame.sprite.Group()
+
 obstacle = Obstacles(50, 50)  # instantiate obstacle
 # self, x_pos, y_pos, surf/display_surface, groups
 # Obstacles(50, 50)
@@ -118,7 +114,9 @@ class CameraGroup(pygame.sprite.Group):
         self.offset.y = player.rect.centery - self.half_height
 
         tiles = self.sprites()
-        other_sprites = list(enemy_sprites) + list(enemy_projectiles) + list(explosion_sprites) + list(obstacles_sprites) + list(projectiles)
+        other_sprites = list(enemy_sprites) + list(enemy_projectiles) \
+                        + list(explosion_sprites) + list(obstacles_sprites) \
+                        + list(projectiles) + list(item_drops)
 
         for sprite in tiles + other_sprites:
             if isinstance(sprite, Tile):
@@ -242,6 +240,13 @@ while running:
                         money.data += 10
                         player.money += 10
 
+                        # roll to see if an item should drop
+                        roll = roll_drop()
+                        if roll is not None:
+                            item_drop = ItemDrop(roll, enemy.rect.center)
+                            item_drops.add(item_drop)
+                            all_sprites.add(item_drop)
+
                         # play enemy death sound
                         main_loop_sounds(2)
 
@@ -272,6 +277,15 @@ while running:
                 exploding_enemy.kill()
 
         enemy.draw_healthbar(display_surface)
+
+    if len(item_drops) > 0:
+        for drop in item_drops:
+            if pygame.sprite.spritecollideany(drop, player_sprite):
+                if drop.item_type == 'health':
+                    player.change_health(25)
+                elif drop.item_type == 'money':
+                    player.money += 25
+                drop.kill()
 
     projectiles.draw(display_surface)
 

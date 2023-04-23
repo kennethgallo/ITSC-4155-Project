@@ -55,7 +55,6 @@ class Enemy(pygame.sprite.Sprite):
         self.last_collision_time = pygame.time.get_ticks()
 
     def movement(self, player):
-
         # Create a direct vector from enemy to player coordinates
         self.vector = pygame.math.Vector2(player.rect.x - self.rect.x, player.rect.y - self.rect.y)
 
