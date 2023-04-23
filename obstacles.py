@@ -15,60 +15,42 @@ class Obstacles(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (200, 300)
 
-        # if x_pos < 0:  # if obstacles.x_pos < 0:
-        #    y_pos = random.randint(0, 500)
-
-        # if y_pos < 0:  # if obstacles.y_pos < 0:
-        #    x_pos = random.randint(0, 500)
-
     def draw_obstacle(self, display_surface):  # (display_surface):
-        # follow draw_healthbar in player.py and enemy.py
-        # maybe also follow
-        # https://www.techwithtim.net/tutorials/game-development-with-python/side-scroller-pygame/random-object-generation/
         display_surface.blit('Assets/fence_00.png', display_surface)
-        # can I use self.rect instead of making a hitbox? (the hitbox is following the techwithtim tutorial)
-        # self.hitbox = (self.x + 10, self.y + 10)
         self.rect = self.image.get_rect()
 
-        # main 226 - Check if the projectile collides with the enemy
-        # if pygame.sprite.collide_rect(projectile, enemy):
-
-        # main 258 - Check if an enemy sprite has collided with a player sprite
-        # if pygame.sprite.spritecollideany(enemy, player_sprite):
-
-    # Logic for player collision with obstacles ???
+    # Logic for player collision with obstacles. Does this go in main ???
     # def check_collision(self, player):
-    #    for obstacles in obstacles_sprites:
-    #        if pygame.sprite.spritecollideany(player, obstacles):
-    #           some code
+    #     for obstacles in obstacles_sprites:
+    #         if pygame.sprite.spritecollideany(player, obstacles):
+    #            some code
+    #            use "enemy.move_back_from_player()" (main 266) as a base to have the player move back from the fence
 
-    # Logic for enemy collision with obstacles ???
+    # Logic for enemy collision with obstacles. Does this go in main ???
     # def check_collision(self, enemy):
-    #    for obstacles in obstacles_sprites:
-    #        if pygame.sprite.spritecollideany(enemy, obstacles):
+    #     for obstacles in obstacles_sprites:
+    #         if pygame.sprite.spritecollideany(enemy, obstacles):
     #           some code
+    #           use "enemy.move_back_from_player()" (main 266) as a base to have the enemy move back from the fence
 
-    # Do I need to do a function in player and enemy similar to
-    # def check_collision(self, enemies): and def move_back_from_player(self): from enemy
+    # Logic to block overlapping movement with the obstacles (from gamedev stackexchange)
+    # Will this need to go in player.py and enemy.py ???
+    # for obstacle in obstacles:
+    #    if player.mask.overlap(obstacle.mask, offset):
+    #        blocked_dir = player.direction
+    #    else:
+    #        blocked_dir = ''
 
-# Tasks:
-# 1. How to draw to surface with size restrictions - DONE: "all_sprites.draw(display_surface)" in Main
+    # movement - (from player.py in my case)
+    # - Will this need to go in player.py and enemy.py ???
+#    if key_pressed[K_d] and blocked_dir != 'right':
+#        player.x += player.speed
+#    elif key_pressed[K_w] and blocked_dir != 'up':
+#        player.y -= player.speed
+#    elif key_pressed[K_a] and blocked_dir != 'left':
+#        player.x -= player.speed
+#    elif key_pressed[K_s] and blocked_dir != 'down':
+#        player.y += player.speed
 
-# 2. How to draw to surface with collisions
-# Recreate line 217 in main.py (if pygame.sprite.spritecollideany)
-# for player and enemy colliding with obstacle
-# I might have to do the logic for enemy collisions with obstacles in the
-# enemy.py class and the player collisions in player.py
-# enemy.py has def check_collision(self, enemies):
-
-# 3. How to randomly draw to surface with size restrictions - look at the directions in enemy_spawn
-# ( line 38 - def spawn_enemies(self, curr_round): )
-
-# 4. Do logic in main for drawing an obstacle at a random position at the start of the game
-# (ie look in main.py for beginning of loop for game) -
-
-# 5. Do logic in main for creating the obstacle(s) (line 127) - DONE
-
-# 6. Do logic in main for adding the obstacle(s) to the map (line x) - DONE
 
 # Fence in Assets folder of project in GitHub
