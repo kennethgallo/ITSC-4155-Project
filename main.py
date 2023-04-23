@@ -4,6 +4,7 @@ import random
 from pytmx.util_pygame import load_pygame
 
 import sounds
+from main_menu import MainMenu
 from player import Player
 from button import Button
 from text_display import TextDisplay
@@ -12,6 +13,7 @@ from tile import Tile
 from explosion import Explosion
 from sounds import main_loop_sounds
 from obstacles import Obstacles
+from item_drops import roll_drop, ItemDrop
 
 
 # Initialize pygame
@@ -33,72 +35,20 @@ WINDOW_WIDTH, WINDOW_HEIGHT = pygame.display.get_window_size()
 FPS = 60
 clock = pygame.time.Clock()
 
-# Main menu surface
-menu_background_surface = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
-menu_background_surface.fill('White')
-
-title_font = pygame.font.Font('Assets/fonts/Feral-Regular.ttf', 50)
-title_text = title_font.render('Creepy Crawlers', True, (0, 0, 255), (255, 255, 255))
-title_rect = title_text.get_rect(center=(WINDOW_WIDTH / 2, 100))
-
-music_font = pygame.font.Font('Assets/fonts/Feral-Regular.ttf', 22)
-music_text = music_font.render('Music by Late Summerchild', True, (0, 0, 255), (255, 255, 255))
-music_rect = music_text.get_rect(center=(WINDOW_WIDTH / 4, 100))
-
-# Main menu buttons
-menu_buttons = pygame.sprite.Group()
-# Start button
-start_button = Button('Start', 'White', 'Black', 200, 100)
-start_button.rect.center = (WINDOW_WIDTH * (1 / 3), WINDOW_HEIGHT / 2)
-# Quit button
-quit_button = Button('Quit', 'White', 'Black', 200, 100)
-quit_button.rect.center = (WINDOW_WIDTH * (2 / 3), WINDOW_HEIGHT / 2)
-
-menu_buttons.add(start_button)
-menu_buttons.add(quit_button)
-
 # Main menu loop
-main_menu = True
-while main_menu:
-    pygame.mixer.music.load('Music/gameloop2.mp3')
-    pygame.mixer.music.play(-1, 0.0)
-    pygame.mixer.music.set_volume(0.05)
+main_menu = MainMenu(WINDOW_WIDTH, WINDOW_HEIGHT, display_surface, clock, FPS)
+keep_menu = True
+while keep_menu:
+    keep_menu = main_menu.menu_loop()
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-            main_menu = False
-            pygame.quit()
-            sys.exit()
-        if event.type == pygame.MOUSEBUTTONUP:
-            mouse_pos = pygame.mouse.get_pos()
-            if start_button.rect.collidepoint(mouse_pos):
-                main_menu = False
-            elif quit_button.rect.collidepoint(mouse_pos):
-                main_menu = False
-                pygame.quit()
-                sys.exit()
-
-    display_surface.blit(menu_background_surface, (0, 0))
-    display_surface.blit(title_text, title_rect)
-    display_surface.blit(music_text, music_rect)
-    menu_buttons.draw(display_surface)
-
-    pygame.display.update()
-    clock.tick(FPS)
-
-# Create all_sprites group
+# Create sprite groups
 all_sprites = pygame.sprite.Group()
-
-# Create explosion_sprites group
 explosion_sprites = pygame.sprite.Group()
-
-# Create projectiles group
 projectiles = pygame.sprite.Group()
-
 player_sprite = pygame.sprite.GroupSingle()
-
-# Create obstacle_sprites group
+item_drops = pygame.sprite.Group()
 obstacles_sprites = pygame.sprite.Group()
+
 obstacle = Obstacles(50, 50)  # instantiate obstacle
 # self, x_pos, y_pos, surf/display_surface, groups
 # Obstacles(50, 50)
@@ -156,13 +106,30 @@ class CameraGroup(pygame.sprite.Group):
         self.half_width = self.display_surface.get_size()[0] // 2
         self.half_height = self.display_surface.get_size()[1] // 2
         self.offset = pygame.math.Vector2()
+        self.last_player_x = player.rect.centerx
+        self.last_player_y = player.rect.centery
 
     def custom_draw(self, player):
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
-        for sprite in (all_sprites and self.sprites()):
-            offset_pos = sprite.rect.topleft - self.offset
-            display_surface.blit(sprite.image, offset_pos)
+
+        tiles = self.sprites()
+        other_sprites = list(enemy_sprites) + list(enemy_projectiles) \
+                        + list(explosion_sprites) + list(obstacles_sprites) \
+                        + list(projectiles) + list(item_drops)
+
+        for sprite in tiles + other_sprites:
+            if isinstance(sprite, Tile):
+                offset_pos = sprite.rect.topleft - self.offset
+                display_surface.blit(sprite.image, offset_pos)
+            else:
+                offset_x = player.rect.centerx - self.last_player_x
+                offset_y = player.rect.centery - self.last_player_y
+                sprite.rect.centerx -= offset_x
+                sprite.rect.centery -= offset_y
+
+        self.last_player_x = player.rect.centerx
+        self.last_player_y = player.rect.centery
 
 
 sprite_group = CameraGroup()
@@ -273,6 +240,13 @@ while running:
                         money.data += 10
                         player.money += 10
 
+                        # roll to see if an item should drop
+                        roll = roll_drop()
+                        if roll is not None:
+                            item_drop = ItemDrop(roll, enemy.rect.center)
+                            item_drops.add(item_drop)
+                            all_sprites.add(item_drop)
+
                         # play enemy death sound
                         main_loop_sounds(2)
 
@@ -303,6 +277,15 @@ while running:
                 exploding_enemy.kill()
 
         enemy.draw_healthbar(display_surface)
+
+    if len(item_drops) > 0:
+        for drop in item_drops:
+            if pygame.sprite.spritecollideany(drop, player_sprite):
+                if drop.item_type == 'health':
+                    player.change_health(25)
+                elif drop.item_type == 'money':
+                    player.money += 25
+                drop.kill()
 
     projectiles.draw(display_surface)
 
