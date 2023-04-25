@@ -1,11 +1,10 @@
 import pygame
 
-from main import obstacles_sprites, obstacles
+# from main import obstacles_sprites, obstacles
 from projectile import Projectile
 import math
 from upgrade_menu import UpgradeMenu
 from sounds import player_death_sound, projectile_sound
-from death_screen import DeathScreen
 
 
 class Player(pygame.sprite.Sprite):
@@ -35,7 +34,6 @@ class Player(pygame.sprite.Sprite):
         self.last_update = pygame.time.get_ticks()
         self.current_frame = 0
         self.upgrade_menu = UpgradeMenu(self, projectiles)
-        self.death_screen = DeathScreen(self)
 
         # Loads all the animation frames into a list
         self.left_anim = [pygame.image.load('Assets/player/newPlayerLeft1.png').convert_alpha(),
@@ -146,7 +144,6 @@ class Player(pygame.sprite.Sprite):
         screen = pygame.display.get_surface()
         if self.health <= 0:
             self.kill()
-            self.death_screen.run_display()
 
             # play player death sound
             player_death_sound()
@@ -169,10 +166,14 @@ class Player(pygame.sprite.Sprite):
         self.projectile_cooldown -= 1
         self.shotgun_cooldown -= 1
 
+
+'''
     # Logic for player collision with obstacles
     def check_collision(self, obstacles):
-         for obstacles in obstacles_sprites:
-             #if pygame.sprite.spritecollideany(self, obstacles):
-             if self.rect.colliderect(obstacles.rect):
+        for obstacles in obstacles_sprites:
+            # if pygame.sprite.spritecollideany(self, obstacles):
+            if self.rect.colliderect(obstacles.rect):
                 # some code
                 print("Player collides with obstacle")
+                pass
+'''

@@ -14,6 +14,7 @@ from explosion import Explosion
 from sounds import main_loop_sounds
 from obstacles import Obstacles
 from item_drops import roll_drop, ItemDrop
+from death_screen import DeathScreen
 
 # Initialize pygame
 pygame.init()
@@ -39,6 +40,9 @@ main_menu = MainMenu(WINDOW_WIDTH, WINDOW_HEIGHT, display_surface, clock, FPS)
 keep_menu = True
 while keep_menu:
     keep_menu = main_menu.menu_loop()
+
+death_screen = DeathScreen(WINDOW_WIDTH, WINDOW_HEIGHT, display_surface)
+
 
 # Create sprite groups
 all_sprites = pygame.sprite.Group()
@@ -211,14 +215,20 @@ while running:
         # Check if the player collides with the obstacles (and update obstacles???)
         if pygame.sprite.collide_rect(player, obstacles):
             # check for collisions and update
+            pass
 
         # Check if the enemy collides with the obstacles (and update obstacles???)
         if pygame.sprite.collide_rect(enemy, obstacles):
             # check for collisions and update
+            pass
 
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     if player.health > 0:
         player.draw_healthbar(display_surface)
+    elif player.health <= 0:
+        death_menu = True
+        while death_menu:
+            death_menu = death_screen.menu_loop()
 
     for projectile in projectiles:
         projectile.update()
@@ -257,6 +267,7 @@ while running:
 
                     if killed_enemy:
                         score.data += 10
+                        death_screen.final_score += 10
                         money.data += 10
                         player.money += 10
 
@@ -312,7 +323,8 @@ while running:
     # check for collisions with walls
     for wall in wall_group:
         if pygame.sprite.collide_rect(player, wall):
-            print('Collision detected!')
+            # print('Collision detected!')
+            pass
 
     # update sprites
     sprite_group.update()
