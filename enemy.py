@@ -154,7 +154,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.enemy_type == 'projectile':
             self.projectile_cooldown -= 1
 
-    # Logic for enemy collision with obstacles.
+    # Logic for enemy collision with obstacles
     def check_collision(self, obstacle):
          for obstacles in obstacles_sprites:
              if pygame.sprite.spritecollideany(self, obstacles):

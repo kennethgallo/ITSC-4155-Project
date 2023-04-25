@@ -169,11 +169,10 @@ class Player(pygame.sprite.Sprite):
         self.projectile_cooldown -= 1
         self.shotgun_cooldown -= 1
 
-    # Logic for player collision with obstacles.
+    # Logic for player collision with obstacles
     def check_collision(self, obstacles):
          for obstacles in obstacles_sprites:
              #if pygame.sprite.spritecollideany(self, obstacles):
              if self.rect.colliderect(obstacles.rect):
                 # some code
                 print("Player collides with obstacle")
-                
