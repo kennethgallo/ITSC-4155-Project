@@ -1,4 +1,6 @@
 import pygame
+
+from main import obstacles_sprites, obstacles
 from projectile import Projectile
 import math
 from upgrade_menu import UpgradeMenu
@@ -166,3 +168,12 @@ class Player(pygame.sprite.Sprite):
         self.key_movement()
         self.projectile_cooldown -= 1
         self.shotgun_cooldown -= 1
+
+    # Logic for player collision with obstacles.
+    def check_collision(self, obstacles):
+         for obstacles in obstacles_sprites:
+             #if pygame.sprite.spritecollideany(self, obstacles):
+             if self.rect.colliderect(obstacles.rect):
+                # some code
+                print("Player collides with obstacle")
+                

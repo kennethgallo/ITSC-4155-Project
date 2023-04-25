@@ -2,6 +2,7 @@ import pygame
 import math
 from projectile import Projectile
 from sounds import projectile_sound
+from main import obstacles_sprites, obstacles
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -153,3 +154,9 @@ class Enemy(pygame.sprite.Sprite):
         if self.enemy_type == 'projectile':
             self.projectile_cooldown -= 1
 
+    # Logic for enemy collision with obstacles.
+    def check_collision(self, obstacle):
+         for obstacles in obstacles_sprites:
+             if pygame.sprite.spritecollideany(self, obstacles):
+                # some code
+                print("Player collides with obstacle")

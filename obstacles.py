@@ -19,22 +19,8 @@ class Obstacles(pygame.sprite.Sprite):
         display_surface.blit('Assets/fence_00.png', display_surface)
         self.rect = self.image.get_rect()
 
-    # Logic for player collision with obstacles. Does this go in main ???
-    # def check_collision(self, player):
-    #     for obstacles in obstacles_sprites:
-    #         if pygame.sprite.spritecollideany(player, obstacles):
-    #            some code
-    #            use "enemy.move_back_from_player()" (main 266) as a base to have the player move back from the fence
-
-    # Logic for enemy collision with obstacles. Does this go in main ???
-    # def check_collision(self, enemy):
-    #     for obstacles in obstacles_sprites:
-    #         if pygame.sprite.spritecollideany(enemy, obstacles):
-    #           some code
-    #           use "enemy.move_back_from_player()" (main 266) as a base to have the enemy move back from the fence
-
     # Logic to block overlapping movement with the obstacles (from gamedev stackexchange)
-    # Will this need to go in player.py and enemy.py ???
+    # Will this need to go in player.py and enemy.py. BOTH
     # for obstacle in obstacles:
     #    if player.mask.overlap(obstacle.mask, offset):
     #        blocked_dir = player.direction
@@ -42,7 +28,7 @@ class Obstacles(pygame.sprite.Sprite):
     #        blocked_dir = ''
 
     # movement - (from player.py in my case)
-    # - Will this need to go in player.py and enemy.py ???
+    # - Will this need to go in player.py and enemy.py . YES
 #    if key_pressed[K_d] and blocked_dir != 'right':
 #        player.x += player.speed
 #    elif key_pressed[K_w] and blocked_dir != 'up':

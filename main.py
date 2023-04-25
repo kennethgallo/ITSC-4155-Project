@@ -196,6 +196,15 @@ while running:
         display_surface.blit(obstacles.image, obstacles.rect)
         obstacles.draw_obstacle()
 
+        # Check if the player collides with the obstacles (and update obstacles???)
+        if pygame.sprite.collide_rect(player, obstacles):
+            check for collisions and update
+
+        # Check if the enemy collides with the obstacles (and update obstacles???)
+        if pygame.sprite.collide_rect(enemy, obstacles):
+            check for collisions and update
+
+
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     if player.health > 0:
         player.draw_healthbar(display_surface)
