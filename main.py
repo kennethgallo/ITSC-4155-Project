@@ -15,7 +15,6 @@ from sounds import main_loop_sounds
 from obstacles import Obstacles
 from item_drops import roll_drop, ItemDrop
 
-
 # Initialize pygame
 pygame.init()
 
@@ -133,13 +132,26 @@ class CameraGroup(pygame.sprite.Group):
 
 
 sprite_group = CameraGroup()
+wall_group = pygame.sprite.Group()
 
 # cycle through all layers
+walls = []
 for layer in tmx_data.visible_layers:
     if hasattr(layer, 'data'):
         for x, y, surf in layer.tiles():
             pos = (x * 32, y * 32)
             Tile(pos=pos, surf=surf, groups=(sprite_group,))
+    if layer.name.startswith('wall-'):
+        for x, y, gid, in layer:
+            rect = pygame.Rect(x * tmx_data.tilewidth, y * tmx_data.tileheight, tmx_data.tilewidth, tmx_data.tileheight)
+            walls.append(rect)
+            wall_sprite = pygame.sprite.Sprite(wall_group)
+            wall_sprite.rect = rect
+
+    # elif hasattr(layer, 'data'):
+    #     for x, y, surf in layer.tiles():
+    #         pos = (x * tmx_data.tilewidth, y * tmx_data.tileheight)
+    #         tile_sprite = Tile(pos=pos, surf=surf, groups=(sprite_group,))
 
 for obj in tmx_data.objects:
     pos = obj.x, obj.y
@@ -298,6 +310,14 @@ while running:
 
     projectiles.draw(display_surface)
 
+    # check for collisions with walls
+    for wall in wall_group:
+        if pygame.sprite.collide_rect(player, wall):
+            print('Collision detected!')
+
+    # update sprites
+    sprite_group.update()
+
     # Update display
     pygame.display.update()
 
@@ -306,4 +326,3 @@ while running:
 
 # End the game
 pygame.quit()
-
