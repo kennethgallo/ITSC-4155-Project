@@ -35,6 +35,8 @@ class Player(pygame.sprite.Sprite):
         self.current_frame = 0
         self.upgrade_menu = UpgradeMenu(self, projectiles)
 
+        self.numKilled = 0
+
         # Loads all the animation frames into a list
         self.left_anim = [pygame.image.load('Assets/player/newPlayerLeft1.png').convert_alpha(),
                           pygame.image.load('Assets/player/newPlayerLeft2.png').convert_alpha(),

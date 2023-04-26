@@ -15,6 +15,7 @@ from sounds import main_loop_sounds
 from obstacles import Obstacles
 from item_drops import roll_drop, ItemDrop
 from death_screen import DeathScreen
+from win_screen import WinScreen
 
 # Initialize pygame
 pygame.init()
@@ -267,6 +268,7 @@ while running:
                         score.data += 10
                         money.data += 10
                         player.money += 10
+                        player.numKilled += 1
 
                         # roll to see if an item should drop
                         roll = roll_drop()
@@ -322,6 +324,12 @@ while running:
         if pygame.sprite.collide_rect(player, wall):
             # print('Collision detected!')
             pass
+
+    if enemy_spawner.round > 3:
+        win_screen = WinScreen(WINDOW_WIDTH, WINDOW_HEIGHT, display_surface, final_score=score.data, enemies_defeated=player.numKilled)
+        win_menu = True
+        while win_menu:
+            win_menu = win_screen.menu_loop()
 
     # update sprites
     sprite_group.update()
