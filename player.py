@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
 
         self.start_health = start_health
         self.health = start_health
-        self.max_invincibility_cooldown = 60  # one second at 60 frames per second
+        self.max_invincibility_cooldown = 30
         self.invincibility_cooldown = 0
         self.invincibility_color_fill = (0, 0, 0)
 
