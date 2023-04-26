@@ -48,13 +48,13 @@ explosion_sprites = pygame.sprite.Group()
 projectiles = pygame.sprite.Group()
 player_sprite = pygame.sprite.GroupSingle()
 item_drops = pygame.sprite.Group()
-obstacles_sprites = pygame.sprite.Group()
+# obstacles_sprites = pygame.sprite.Group()
 
-obstacle = Obstacles(50, 50)  # instantiate obstacle
+# obstacle = Obstacles(50, 50)  # instantiate obstacle
 # self, x_pos, y_pos, surf/display_surface, groups
 # Obstacles(50, 50)
-pygame.sprite.Group.add(obstacle)
-all_sprites.add(obstacle)
+# pygame.sprite.Group.add(obstacle)
+# wall_sprites.add(obstacle)
 
 # Player image, coordinates, and speed
 start_health = 100
@@ -72,7 +72,7 @@ money = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 80), label='Money', data=
 money_sprite.add(money)
 
 # Create enemy spawner class to track enemies and enemy spawn
-enemy_spawner = EnemySpawner(display_surface, player, 3, all_sprites)
+enemy_spawner = EnemySpawner(display_surface, player, 4, all_sprites)
 enemy_sprites = enemy_spawner.enemy_sprite_group
 enemy_projectiles = enemy_spawner.enemy_projectiles
 exploding_enemies = enemy_spawner.exploding_enemies
@@ -116,8 +116,9 @@ class CameraGroup(pygame.sprite.Group):
 
         tiles = self.sprites()
         other_sprites = list(enemy_sprites) + list(enemy_projectiles) \
-                        + list(explosion_sprites) + list(obstacles_sprites) \
-                        + list(projectiles) + list(item_drops)
+                        + list(explosion_sprites) + list(item_drops) \
+                        + list(projectiles) \
+                        # + list(obstacles_sprites)
 
         for sprite in tiles + other_sprites:
             if isinstance(sprite, Tile):
@@ -205,20 +206,20 @@ while running:
         display_surface.blit(explosion.image, explosion.rect)
 
     # Update and draw obstacles
-    obstacles_sprites.update()
-    for obstacles in obstacles_sprites:
-        display_surface.blit(obstacles.image, obstacles.rect)
-        obstacles.draw_obstacle()
+    # obstacles_sprites.update()
+    # for obstacles in obstacles_sprites:
+        # display_surface.blit(obstacles.image, obstacles.rect)
+        # obstacles.draw_obstacle()
 
         # Check if the player collides with the obstacles (and update obstacles???)
-        if pygame.sprite.collide_rect(player, obstacles):
+        # if pygame.sprite.collide_rect(player, obstacles):
             # check for collisions and update
-            pass
+            # pass
 
         # Check if the enemy collides with the obstacles (and update obstacles???)
-        if pygame.sprite.collide_rect(enemy, obstacles):
+        # if pygame.sprite.collide_rect(enemy, obstacles):
             # check for collisions and update
-            pass
+            # pass
 
     # Draw a rect. Pass in display, color, xy width and height, player health, and height
     if player.health > 0:
@@ -325,7 +326,7 @@ while running:
             # print('Collision detected!')
             pass
 
-    if enemy_spawner.round > 3:
+    if enemy_spawner.round > 4:
         win_screen = WinScreen(WINDOW_WIDTH, WINDOW_HEIGHT, display_surface, final_score=score.data, enemies_defeated=player.numKilled)
         win_menu = True
         while win_menu:
