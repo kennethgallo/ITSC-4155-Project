@@ -2,8 +2,10 @@ import pygame
 from enemy import Enemy
 
 class Boss(pygame.sprite.Sprite):
-    def __init__(self, start_health, x_pos, y_pos, all_sprites, enemy_projectiles, image):
+    def __init__(self, start_health, x_pos, y_pos, all_sprites, enemy_projectiles, image, display_surface):
         super().__init__()
+
+        self.display_surface = display_surface
 
         self.image = pygame.image.load(image).convert_alpha()
         self.rect = self.image.get_rect()
@@ -21,6 +23,9 @@ class Boss(pygame.sprite.Sprite):
 
         self.rect.x = x_pos
         self.rect.y = y_pos
+
+        self.is_sprinting = False
+        self.last_sprint_time = pygame.time.get_ticks()
 
     def movement(self, player):
         # Create a direct vector from enemy to player coordinates
@@ -61,6 +66,11 @@ class Boss(pygame.sprite.Sprite):
         pygame.draw.rect(display_surface, red, (barx - 25, bary - 25, background_length, 10))
         pygame.draw.rect(display_surface, green, (barx - 25, bary - 25, foreground_length, 10))
 
+    def sprint(self):
+        self.speed = 12
+        self.image = pygame.image.load('Assets/enemy/enemy2.png').convert_alpha()
+        self.is_sprinting = True
+
     def check_collision(self, enemies):
         for enemy in enemies:
             if pygame.sprite.collide_rect(self, enemy):
@@ -70,5 +80,21 @@ class Boss(pygame.sprite.Sprite):
                     self.change_health(1)
 
     def update(self, player, enemies):
-        self.movement(player)
-        self.check_collision(enemies)
+        if self.is_sprinting:  # add this block to check if boss is sprinting
+            current_time = pygame.time.get_ticks()
+            if current_time - self.last_sprint_time > 2000:
+                self.speed = 6
+                self.image = pygame.image.load('Assets/enemy/enemy1.png').convert_alpha()
+                self.is_sprinting = False
+            else:
+                self.movement(player)
+                self.check_collision(enemies)
+        else:
+            self.movement(player)
+            self.check_collision(enemies)
+
+        # add this block to check if it's time to sprint
+        current_time = pygame.time.get_ticks()
+        if not self.is_sprinting and current_time - self.last_sprint_time > 6000:
+            self.sprint()
+            self.last_sprint_time = current_time

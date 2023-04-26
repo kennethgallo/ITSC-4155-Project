@@ -40,7 +40,7 @@ class EnemySpawner:
         direction = 0  # 0: north, 1: east, 2: south, 3: west
 
         if curr_round == 4:  # spawn boss on round 4
-            boss = Boss(start_health=5000, x_pos=300, y_pos=100, all_sprites=self.all_sprites, enemy_projectiles=self.enemy_projectiles, image='Assets/enemy/enemy1.png')
+            boss = Boss(start_health=5000, x_pos=300, y_pos=100, all_sprites=self.all_sprites, enemy_projectiles=self.enemy_projectiles, image='Assets/enemy/enemy1.png', display_surface=self.display_surface)
             self.enemy_sprite_group.add(boss)
         else:
             num_enemies = curr_round * self.num_enemies_per_round  # six enemies more each round for now
