@@ -21,10 +21,8 @@ class Enemy(pygame.sprite.Sprite):
             self.sprite_sheet = pygame.image.load('Assets/enemy/Characters/Big Worm 1/Big worm - 1-idle-8 frames.png').convert_alpha()
             self.start_health = start_health / 2
 
-        self.sprite_sheet = pygame.transform.scale(self.sprite_sheet, (60, 60))
-
-        self.sprite_sheet = pygame.transform.scale(self.sprite_sheet, (480, 60))
-        self.frame_width = 60
+        self.sprite_sheet = pygame.transform.scale(self.sprite_sheet, (360, 60))
+        self.frame_width = 45
         self.frame_height = 60
         self.frames = []
         self.last_frame_time = pygame.time.get_ticks()
