@@ -41,9 +41,6 @@ keep_menu = True
 while keep_menu:
     keep_menu = main_menu.menu_loop()
 
-death_screen = DeathScreen(WINDOW_WIDTH, WINDOW_HEIGHT, display_surface)
-
-
 # Create sprite groups
 all_sprites = pygame.sprite.Group()
 explosion_sprites = pygame.sprite.Group()
@@ -226,6 +223,7 @@ while running:
     if player.health > 0:
         player.draw_healthbar(display_surface)
     elif player.health <= 0:
+        death_screen = DeathScreen(WINDOW_WIDTH, WINDOW_HEIGHT, display_surface, final_score=score.data)
         death_menu = True
         while death_menu:
             death_menu = death_screen.menu_loop()
@@ -267,7 +265,6 @@ while running:
 
                     if killed_enemy:
                         score.data += 10
-                        death_screen.final_score += 10
                         money.data += 10
                         player.money += 10
 

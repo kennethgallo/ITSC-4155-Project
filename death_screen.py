@@ -6,7 +6,7 @@ import player
 
 
 class DeathScreen:
-    def __init__(self, window_width, window_height, display_surface):
+    def __init__(self, window_width, window_height, display_surface, final_score):
         self.display_surface = display_surface
 
         # Main menu surface
@@ -23,7 +23,7 @@ class DeathScreen:
 
         # Final score display
         self.score_font = pygame.font.Font(None, 30)
-        self.final_score = 0
+        self.final_score = final_score
         self.score_text = self.score_font.render('Final Score: {}'.format(self.final_score), True, 'White')
         self.score_rect = self.score_text.get_rect(center=(window_width / 2, window_height / 2))
 
