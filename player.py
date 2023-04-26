@@ -16,6 +16,9 @@ class Player(pygame.sprite.Sprite):
 
         self.start_health = start_health
         self.health = start_health
+        self.max_invincibility_cooldown = 60  # one second at 60 frames per second
+        self.invincibility_cooldown = 0
+        self.invincibility_color_fill = (0, 0, 0)
 
         self.player_y = 500
         self.player_x = 500
@@ -139,6 +142,17 @@ class Player(pygame.sprite.Sprite):
         self.player_y = 0
 
     def change_health(self, amount):
+
+        # check if health is decreasing
+        if amount < 0:
+            # If cooldown is still counting, don't take damage
+            if self.invincibility_cooldown > 0:
+                return
+            # otherwise, reset the cooldown and brighten the character so the player knows
+            else:
+                self.invincibility_cooldown = self.max_invincibility_cooldown
+                self.invincibility_color_fill = (128, 128, 128)
+
         self.health += amount
         if self.health > self.start_health:
             self.health = self.start_health
@@ -168,6 +182,16 @@ class Player(pygame.sprite.Sprite):
         self.projectile_cooldown -= 1
         self.shotgun_cooldown -= 1
 
+        # decrease invincibility cooldown
+        if self.invincibility_cooldown > 0:
+            self.invincibility_cooldown -= 1
+
+            # if cooldown ended, reverse the brightening of the character
+            if self.invincibility_cooldown <= 0:
+                self.invincibility_color_fill = (0, 0, 0)
+
+        # update the player with a brighter color if invincible, otherwise it will be unaltered
+        self.image.fill(self.invincibility_color_fill, special_flags=pygame.BLEND_RGB_ADD)
 
 '''
     # Logic for player collision with obstacles

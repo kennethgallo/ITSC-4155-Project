@@ -97,8 +97,8 @@ player_pos = pygame.math.Vector2(random.randint(boundary_rect.left, boundary_rec
                                  random.randint(boundary_rect.top, boundary_rect.bottom))
 
 # start player in random place
-player.rect.center = player_pos
-
+# player.rect.center = player_pos
+player.rect.center = (display_surface.get_width() / 2, display_surface.get_height() / 2)
 
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
