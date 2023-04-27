@@ -354,8 +354,10 @@ while running:
             # print('Collision detected!')
             pass
 
-    if enemy_spawner.round > 4:
-        win_screen = WinScreen(WINDOW_WIDTH, WINDOW_HEIGHT, display_surface, final_score=score.data, enemies_defeated=player.numKilled)
+    if enemy_spawner.round > enemy_spawner.max_rounds:
+        win_screen = WinScreen(WINDOW_WIDTH, WINDOW_HEIGHT, display_surface,
+                               final_score=score.data, enemies_defeated=player.numKilled,
+                               final_time=time)
         win_menu = True
         while win_menu:
             win_menu = win_screen.menu_loop()
