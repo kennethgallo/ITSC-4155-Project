@@ -50,7 +50,7 @@ class UpgradeMenu:
                             Projectile.max_hits += data["effect"]
                             pygame.time.delay(500)
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE or event.key == pygame.K_b:
+                    if event.key == pygame.K_ESCAPE:
                         return
                     # Check if key pressed corresponds to an upgrade, then update player stats and money
                     elif event.key == pygame.K_1:
