@@ -63,15 +63,16 @@ class UpgradeMenu:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     return
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
                     # Check if selected upgrade is affordable, then update player stats and money
                     for item, data in self.upgrade_items.items():
-                        upgrade_rect = pygame.Rect(100, 150 + (100 * list(self.upgrade_items.keys()).index(item)), 200, 50)
+                        upgrade_rect = pygame.Rect(self.window_width / 2, 200 + (100 * list(self.upgrade_items.keys()).index(item)), 200, 50)
                         if upgrade_rect.collidepoint(mouse_pos) and self.player.money >= data["cost"]:
                             self.player.money -= data["cost"]
                             Projectile.max_hits += data["effect"]
-                            pygame.time.delay(500)
+
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         return
