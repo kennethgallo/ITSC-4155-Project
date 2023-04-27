@@ -9,7 +9,7 @@ class UpgradeMenu:
         self.window_width = window_width
         self.window_height = window_height
         self.upgrade_items = {
-            "Health Upgrade": {"cost":30, "effect": 10, "stat": "health"},
+            "Health Upgrade": {"cost":30, "effect": 10, "stat": "start_health"},
             "Damage Upgrade": {"cost": 100, "effect": 20, "stat": "damage"},
             "Speed Upgrade": {"cost": 50, "effect": 2, "stat": "speed"},
             "Projectile Upgrade": {"cost": 150, "effect": 1, "stat": "max_hits"}
@@ -71,7 +71,12 @@ class UpgradeMenu:
                         upgrade_rect = pygame.Rect(self.window_width / 2, 200 + (100 * list(self.upgrade_items.keys()).index(item)), 200, 50)
                         if upgrade_rect.collidepoint(mouse_pos) and self.player.money >= data["cost"]:
                             self.player.money -= data["cost"]
-                            Projectile.max_hits += data["effect"]
+                            if data["stat"] == 'max_hits':
+                                Projectile.max_hits += data["effect"]
+                            else:
+                                setattr(self.player, data["stat"], getattr(self.player, data["stat"]) + data["effect"])
+                                if data["stat"] == 'start_health':
+                                    self.player.health = self.player.start_health
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -80,7 +85,8 @@ class UpgradeMenu:
                     elif event.key == pygame.K_1:
                         if self.player.money >= self.upgrade_items["Health Upgrade"]["cost"]:
                             self.player.money -= self.upgrade_items["Health Upgrade"]["cost"]
-                            self.player.health += self.upgrade_items["Health Upgrade"]["effect"]
+                            self.player.start_health += self.upgrade_items["Health Upgrade"]["effect"]
+                            self.player.health = self.player.start_health
                     elif event.key == pygame.K_2:
                         if self.player.money >= self.upgrade_items["Damage Upgrade"]["cost"]:
                             self.player.money -= self.upgrade_items["Damage Upgrade"]["cost"]
