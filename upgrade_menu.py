@@ -47,10 +47,10 @@ class UpgradeMenu:
                         upgrade_rect = pygame.Rect(100, 150 + (100 * list(self.upgrade_items.keys()).index(item)), 200, 50)
                         if upgrade_rect.collidepoint(mouse_pos) and self.player.money >= data["cost"]:
                             self.player.money -= data["cost"]
-                            setattr(self.player, data["stat"], getattr(self.player, data["stat"]) + data["effect"])
+                            Projectile.max_hits += data["effect"]
                             pygame.time.delay(500)
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
+                    if event.key == pygame.K_ESCAPE or event.key == pygame.K_b:
                         return
                     # Check if key pressed corresponds to an upgrade, then update player stats and money
                     elif event.key == pygame.K_1:
