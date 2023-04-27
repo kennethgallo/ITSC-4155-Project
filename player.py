@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
 
         self.last_update = pygame.time.get_ticks()
         self.current_frame = 0
-        self.upgrade_menu = UpgradeMenu(self, projectiles)
+        self.upgrade_menu = UpgradeMenu(self, projectiles, window_width, window_height)
 
         self.numKilled = 0
 
