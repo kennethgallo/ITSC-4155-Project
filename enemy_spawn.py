@@ -12,7 +12,7 @@ class EnemySpawner:
     def __init__(self, display_surface, player, max_rounds, all_sprites):
         self.display_surface = display_surface
         self.player = player
-        self.max_rounds = max_rounds
+        self.max_rounds = 4
         self.game_over = False
 
         self.all_sprites = all_sprites
