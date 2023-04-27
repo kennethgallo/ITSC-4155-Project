@@ -88,7 +88,7 @@ tmx_data = load_pygame('Assets/background/maps/EPICRPGWorldPackCryptV.1.3/crypt.
 map_width = tmx_data.width * tmx_data.tilewidth
 map_height = tmx_data.height * tmx_data.tileheight
 
-map_width_bound = (tmx_data.width * tmx_data.tilewidth)
+map_width_bound = (tmx_data.width * tmx_data.tilewidth) - 465
 map_height_bound = (tmx_data.height * tmx_data.tileheight)
 
 # create a rectangle around the edge of the map
@@ -102,8 +102,9 @@ player_pos = pygame.math.Vector2(random.randint(boundary_rect.left, boundary_rec
                                  random.randint(boundary_rect.top, boundary_rect.bottom))
 
 # start player in random place
-# player.rect.center = player_pos
+player.rect.center = player_pos
 player.rect.center = (display_surface.get_width() / 2, display_surface.get_height() / 2)
+
 
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
@@ -169,7 +170,7 @@ for obj in tmx_data.objects:
 # Main game loop
 running = True
 while running:
-    display_surface.fill(0)
+    display_surface.fill((36,71,95))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
