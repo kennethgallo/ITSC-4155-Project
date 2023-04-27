@@ -88,9 +88,14 @@ tmx_data = load_pygame('Assets/background/maps/EPICRPGWorldPackCryptV.1.3/crypt.
 map_width = tmx_data.width * tmx_data.tilewidth
 map_height = tmx_data.height * tmx_data.tileheight
 
+map_width_bound = (tmx_data.width * tmx_data.tilewidth)
+map_height_bound = (tmx_data.height * tmx_data.tileheight)
+
 # create a rectangle around the edge of the map
 boundary_rect = pygame.Rect(0, 0, map_width, map_height)
 boundary_rect.inflate_ip(-tmx_data.tilewidth, -tmx_data.tileheight)
+
+map_bound_rect = pygame.Rect(0, 0, map_width_bound, map_height_bound)
 
 # generate a random position
 player_pos = pygame.math.Vector2(random.randint(boundary_rect.left, boundary_rect.right),
@@ -144,12 +149,12 @@ for layer in tmx_data.visible_layers:
         for x, y, surf in layer.tiles():
             pos = (x * 32, y * 32)
             Tile(pos=pos, surf=surf, groups=(sprite_group,))
-    if layer.name.startswith('wall-'):
-        for x, y, gid, in layer:
-            rect = pygame.Rect(x * tmx_data.tilewidth, y * tmx_data.tileheight, tmx_data.tilewidth, tmx_data.tileheight)
-            walls.append(rect)
-            wall_sprite = pygame.sprite.Sprite(wall_group)
-            wall_sprite.rect = rect
+    # if layer.name.startswith('wall-'):
+    #     for x, y, gid, in layer:
+    #         rect = pygame.Rect(x * tmx_data.tilewidth, y * tmx_data.tileheight, tmx_data.tilewidth, tmx_data.tileheight)
+    #         walls.append(rect)
+    #         wall_sprite = pygame.sprite.Sprite(wall_group)
+    #         wall_sprite.rect = rect
 
     # elif hasattr(layer, 'data'):
     #     for x, y, surf in layer.tiles():
@@ -337,6 +342,8 @@ while running:
 
     # Update display
     pygame.display.update()
+
+    player.rect.clamp_ip(map_bound_rect)
 
     # Tick the clock
     clock.tick(FPS)
