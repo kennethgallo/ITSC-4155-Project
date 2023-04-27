@@ -64,12 +64,17 @@ player_sprite.add(player)
 
 # Player score variable
 score_sprite = pygame.sprite.GroupSingle()
-score = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 50), label='Score', data=0)
+score = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 50), label='Score', data=0, font_size=50)
 score_sprite.add(score)
 
 money_sprite = pygame.sprite.GroupSingle()
-money = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 80), label='Money', data=0)
+money = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 80), label='Money', data=0, font_size=50)
 money_sprite.add(money)
+
+buy_menu_prompt_sprite = pygame.sprite.GroupSingle()
+buy_menu_prompt = TextDisplay(screen_location=(WINDOW_WIDTH - 100, 80), label='Press B to open shop', data=None,
+                              font_size=25)
+buy_menu_prompt_sprite.add(buy_menu_prompt)
 
 # Create enemy spawner class to track enemies and enemy spawn
 enemy_spawner = EnemySpawner(display_surface, player, 4, all_sprites)
@@ -205,6 +210,10 @@ while running:
     money_sprite.update()
     money.data = player.money
     money.update()
+
+    # Draw the buy menu prompt
+    buy_menu_prompt_sprite.draw(display_surface)
+    buy_menu_prompt_sprite.update()
 
     # Update and draw explosions
     explosion_sprites.update()

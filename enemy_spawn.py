@@ -21,7 +21,7 @@ class EnemySpawner:
 
         self.round = 1
         self.num_enemies_per_round = 8
-        self.round_display = TextDisplay((100, 100), 'Round', self.round)
+        self.round_display = TextDisplay((100, 100), 'Round', self.round, 50)
         self.round_sprite = pygame.sprite.GroupSingle()
         self.round_sprite.add(self.round_display)
 
