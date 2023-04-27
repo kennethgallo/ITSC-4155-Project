@@ -1,6 +1,7 @@
 import sys
 import pygame
 import random
+import math
 from pytmx.util_pygame import load_pygame
 
 import sounds
@@ -70,6 +71,11 @@ score_sprite.add(score)
 money_sprite = pygame.sprite.GroupSingle()
 money = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 80), label='Money', data=0, font_size=50)
 money_sprite.add(money)
+
+timer_sprite = pygame.sprite.GroupSingle()
+time = 0
+timer_text = TextDisplay(screen_location=(WINDOW_WIDTH / 2, 110), label='Time', data=time, font_size=30)
+timer_sprite.add(timer_text)
 
 buy_menu_prompt_sprite = pygame.sprite.GroupSingle()
 buy_menu_prompt = TextDisplay(screen_location=(WINDOW_WIDTH - 100, 80), label='Press B to open shop', data=None,
@@ -210,6 +216,13 @@ while running:
     money_sprite.update()
     money.data = player.money
     money.update()
+
+    # Update and draw timer text
+    timer_sprite.draw(display_surface)
+    timer_sprite.update()
+    time += clock.get_time()
+    timer_text.data = math.floor(time / 100) / 10
+    timer_text.update()
 
     # Draw the buy menu prompt
     buy_menu_prompt_sprite.draw(display_surface)
