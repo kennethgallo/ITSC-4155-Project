@@ -10,10 +10,10 @@ class UpgradeMenu:
         self.window_width = window_width
         self.window_height = window_height
         self.upgrade_items = {
-            "Health Upgrade": {"cost": 30, "effect": 10, "stat": "start_health"},
-            "Damage Upgrade": {"cost": 100, "effect": 20, "stat": "damage"},
-            "Speed Upgrade": {"cost": 50, "effect": 2, "stat": "speed"},
-            "Projectile Upgrade": {"cost": 150, "effect": 1, "stat": "max_hits"}
+            "Health Upgrade": {"cost": 60, "effect": 10, "stat": "start_health"},
+            "Damage Upgrade": {"cost": 120, "effect": 20, "stat": "damage"},
+            "Speed Upgrade": {"cost": 50, "effect": 1.25, "stat": "speed"},
+            "Projectile Upgrade": {"cost": 80, "effect": 1, "stat": "max_hits"}
         }
         self.upgrade_buttons = {}
 
