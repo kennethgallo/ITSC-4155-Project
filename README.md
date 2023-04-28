@@ -12,6 +12,8 @@ From here, there are two ways to launch the game:<br>
 * Double click the "main.exe" file in the root folder of the repository<br>
 * Pull the repository into VS Code, PyCharm, or an environment of your choice, and then run the "main.py" file<br>
 
+Note: If the exe file does not work for you, you may need to install the latest version of Visual C++ Redistributable: https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170 
+
 Enjoy the game!
 
 # Contributors
