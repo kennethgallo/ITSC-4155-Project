@@ -2,7 +2,7 @@
 
 # Summary
 This is Group 5's Capstone project for ITSC 4155<br>
-It is a top down shooter game where you will attempt to make your way through a few waves of enemies with increasing difficulty.<br>
+It is a top down shooter game called <b>Creepy Crawlers</b> where you will attempt to make your way through a few waves of enemies with increasing difficulty.<br>
 Make sure to buy some upgrades, and try to get the best score you can!<br>
 
 # Setup and Installation
