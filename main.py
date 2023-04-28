@@ -102,18 +102,18 @@ map_height = tmx_data.height * tmx_data.tileheight
 map_width_bound = (tmx_data.width * tmx_data.tilewidth) - 465
 map_height_bound = (tmx_data.height * tmx_data.tileheight)
 
-# create a rectangle around the edge of the map
-boundary_rect = pygame.Rect(0, 0, map_width, map_height)
-boundary_rect.inflate_ip(-tmx_data.tilewidth, -tmx_data.tileheight)
+# # create a rectangle around the edge of the map
+# boundary_rect = pygame.Rect(0, 0, map_width, map_height)
+# boundary_rect.inflate_ip(-tmx_data.tilewidth, -tmx_data.tileheight)
+#
+# map_bound_rect = pygame.Rect(tmx_data, map_width_bound, map_height_bound)
 
-map_bound_rect = pygame.Rect(0, 0, map_width_bound, map_height_bound)
-
-# generate a random position
-player_pos = pygame.math.Vector2(random.randint(boundary_rect.left, boundary_rect.right),
-                                 random.randint(boundary_rect.top, boundary_rect.bottom))
+# # generate a random position
+# player_pos = pygame.math.Vector2(random.randint(boundary_rect.left, boundary_rect.right),
+#                                  random.randint(boundary_rect.top, boundary_rect.bottom))
 
 # start player in random place
-player.rect.center = player_pos
+# player.rect.center = player_pos
 player.rect.center = (display_surface.get_width() / 2, display_surface.get_height() / 2)
 
 
@@ -368,7 +368,7 @@ while running:
     # Update display
     pygame.display.update()
 
-    player.rect.clamp_ip(map_bound_rect)
+    # player.rect.clamp_ip(map_bound_rect)
 
     # Tick the clock
     clock.tick(FPS)
