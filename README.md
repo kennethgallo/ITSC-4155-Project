@@ -17,9 +17,9 @@ Note: If the exe file does not work for you, you may need to install the latest 
 Enjoy the game!
 
 # Contributors
-Matthew Carroll
-Harrison Bawden
-Ben Leasure
-Alex Scarboro
-Shane Fox
-Kenneth Gallo
+* Matthew Carroll
+* Harrison Bawden
+* Ben Leasure
+* Alex Scarboro
+* Shane Fox
+* Kenneth Gallo
