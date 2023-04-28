@@ -1,5 +1,6 @@
 import pygame
 from projectile import Projectile
+from button import ShopButton
 
 
 class UpgradeMenu:
@@ -9,11 +10,12 @@ class UpgradeMenu:
         self.window_width = window_width
         self.window_height = window_height
         self.upgrade_items = {
-            "Health Upgrade": {"cost":30, "effect": 10, "stat": "start_health"},
+            "Health Upgrade": {"cost": 30, "effect": 10, "stat": "start_health"},
             "Damage Upgrade": {"cost": 100, "effect": 20, "stat": "damage"},
             "Speed Upgrade": {"cost": 50, "effect": 2, "stat": "speed"},
             "Projectile Upgrade": {"cost": 150, "effect": 1, "stat": "max_hits"}
         }
+        self.upgrade_buttons = {}
 
     def display_menu(self, screen):
         header_font = pygame.font.Font(None, 45)
@@ -30,24 +32,15 @@ class UpgradeMenu:
         upgrade_font = pygame.font.Font(None, 28)
         x, y = self.window_width / 2, 200
         for item, data in self.upgrade_items.items():
-            upgrade_name = upgrade_font.render(item, True, (0, 0, 0))
-            upgrade_cost = upgrade_font.render(f"Cost: {data['cost']}", True, (50, 50, 50))
-            name_location = upgrade_name.get_rect(center=(x, y))
-            cost_location = upgrade_cost.get_rect(center=(x, y + 30))
 
-            background_width = upgrade_name.get_size()[0] + upgrade_cost.get_size()[0]
-            background_height = (upgrade_name.get_size()[1] + upgrade_cost.get_size()[1]) * 2
-            background_size = (background_width, background_height)
-            background = pygame.surface.Surface(background_size)
-            background.fill('LightGray')
-            background_location = background.get_rect(center=(x, y + 15))
+            button = ShopButton(item, f'Cost: {data["cost"]}')
+            button.rect.center = (x, y)
+            self.upgrade_buttons[item] = button
 
-            screen.blit(background, background_location)
-            screen.blit(upgrade_name, name_location)
-            screen.blit(upgrade_cost, cost_location)
+            screen.blit(button.image, button.rect)
             y += 100
 
-        # tell user how to leave the menu
+        # Prompt to tell the user how to leave the menu
         smaller_font = pygame.font.Font(None, 25)
         close_menu_text = smaller_font.render('Press Escape to close', True, (200, 200, 200))
         close_menu_text_location = close_menu_text.get_rect(center=(self.window_width / 2, self.window_height - 100))
@@ -68,10 +61,12 @@ class UpgradeMenu:
                     mouse_pos = pygame.mouse.get_pos()
                     # Check if selected upgrade is affordable, then update player stats and money
                     for item, data in self.upgrade_items.items():
-                        upgrade_rect = pygame.Rect((self.window_width / 2) - 100,
-                                                   200 + (100 * list(self.upgrade_items.keys()).index(item)),
-                                                   200, 50)
-                        if upgrade_rect.collidepoint(mouse_pos) and self.player.money >= data["cost"]:
+
+                        # grab the button corresponding to the item
+                        button = self.upgrade_buttons[item]
+
+                        # check for collision with button and if player has enough money
+                        if button.rect.collidepoint(mouse_pos) and self.player.money >= data["cost"]:
                             self.player.money -= data["cost"]
                             if data["stat"] == 'max_hits':
                                 Projectile.max_hits += data["effect"]
